@@ -17,9 +17,10 @@
   },
   "homepage": "https://github.com/MKwenhua/js_trie#readme",
   "dependencies": {
-    "babelify": "^7.3.0",
-    "browserify": "^14.1.0",
-    "jsx-transform": "^2.3.0",
-    "reactalike": "git+https://github.com/MKwenhua/reactalike.git"
+    "reactalike": "git+https://github.com/MKwenhua/reactalike.git",
+    "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.23.0"
   }
 }
