@@ -1,0 +1,25 @@
+{
+  "name": "js_trie",
+  "version": "1.0.0",
+  "description": "A few Javascript trie data structures for autocomplete and things",
+  "main": "eighties_movies_list.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MKwenhua/js_trie.git"
+  },
+  "author": "Peter Halloran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MKwenhua/js_trie/issues"
+  },
+  "homepage": "https://github.com/MKwenhua/js_trie#readme",
+  "dependencies": {
+    "babelify": "^7.3.0",
+    "browserify": "^14.1.0",
+    "jsx-transform": "^2.3.0",
+    "reactalike": "git+https://github.com/MKwenhua/reactalike.git"
+  }
+}
