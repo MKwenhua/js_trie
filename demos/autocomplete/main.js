@@ -1,19 +1,27 @@
-const EX = require("reactalike")('autocomplete');
-const Trie = require('./src/trie.js');
+import EX from 'reactalike';
+import BuildTrie from './src/trie.js';
 const WordList = require('./src/word_list.js');
-
-const Autocomplete = new Trie(WordList);
+const WordActions = require('./src/word_actions.js');
+const Autocomplete = BuildTrie(WordList, WordActions);
 
 let AppState = {
  suggestions: []
 }
 
+const logAction = (word) => {
+  return () => {
+
+    console.log('WordActions[word]', word , WordActions[word]);
+  }
+}
 const searchType = (e, elem) => {
 	let typed = elem.value.toLowerCase().trim()
     EX.SetState({
     suggestions: Autocomplete.lookup(typed)
   });
 }
+window.auto = Autocomplete;
+ console.log('WordActions', WordActions);
 const Layout = {
   state: AppState,
   render: () => {
@@ -22,11 +30,12 @@ const Layout = {
     } = Layout.state;
 
     let movieSuggestions = suggestions.map((itm) => {
-    	return <li>{itm}</li>
+
+    	return <li onClick={logAction(itm)}>{itm}</li>
     })
     return (
 	<div class="row">
-        <div   class="col-sm-6 col-sm-offset-3">
+        <div onClick={() => {console.log('clicked this!')}} class="col-sm-6 col-sm-offset-3">
             <div id="imaginary_container"> 
                 <div class="input-group stylish-input-group">
                     <input  onKeyUp={searchType} type="text" class="form-control"  placeholder="Search" />

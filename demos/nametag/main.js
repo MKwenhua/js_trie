@@ -1,4 +1,4 @@
-const EX = require("reactalike")('yo');
+import EX from 'reactalike';
 
 const theEvent = (prp) => {
   return () => {

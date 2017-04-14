@@ -1,17 +1,19 @@
-function Trie(wordList) {
-   function addCharToTrie(index, word, branch, trie) {
+function Trie(wordList, actions) {
+   function getAction(word) {
+      return actions[word] ? actions[word] : null;
+   }
+   function addCharToTrie(index, word, branch, trie, punctuatedWord) {
       if (index === word.length)
          return trie;
       var char = word[index];
       if (!branch[char]) {
          branch[char] = {
-            word: null,
-            action: null
+            word: (word.length - 1) === index ? punctuatedWord : null,
+            action: (word.length - 1) === index ? getAction(punctuatedWord) : null
          };
       }
-      branch[char].word = (word.length - 1) === index ? word : null;
 
-      return addCharToTrie(index + 1, word, branch[char], trie)
+      return addCharToTrie(index + 1, word, branch[char], trie, punctuatedWord)
    }
    function getBranch(charString, trie) {
       var branch = trie;
@@ -22,6 +24,8 @@ function Trie(wordList) {
          }
       return branch;
    }
+   this.words = wordList;
+   this.actions = actions;
    this.findWords = (branch, lookupId) => {
       var self = this;
       console.log(branch)
@@ -54,18 +58,21 @@ function Trie(wordList) {
 
    }
 
-   this.words = wordList;
    this.head = wordList.reduce((tr, word) => {
       var lw = word.toLowerCase()
       tr[lw[0]] = tr[lw[0]] ? tr[lw[0]] : {
          word: null,
          action: null
       };
-      return addCharToTrie(1, lw, tr[lw[0]], tr);
+      return addCharToTrie(1, lw, tr[lw[0]], tr, word);
    }, {});
    this.lookup = (letters) => {
       return this.getWordList(letters.toLowerCase())
    }
 }
 
-module.exports = Trie;
+function BuildTrie(wordList, actions) {
+   return new Trie(wordList, actions);
+}
+
+export default BuildTrie;
