@@ -4,7 +4,7 @@ const WordList = require('./src/word_list.js');
 const WordActions = require('./src/word_actions.js');
 const Autocomplete = BuildTrie(WordList, WordActions);
 
-let AppState = {
+const AppState = {
  suggestions: []
 }
 
@@ -23,8 +23,7 @@ const searchType = (e, elem, otherNode) => {
     suggestions: Autocomplete.lookup(typed)
   });
 }
-window.auto = Autocomplete;
- console.log('WordActions', WordActions);
+
 const Layout = {
   state: AppState,
   render: () => {
@@ -37,11 +36,11 @@ const Layout = {
     	return <li onClick={logAction(itm)}>{itm}</li>
     })
     return (
-	<div class="row">
+    	<div class="row">
         <div onClick={() => {console.log('clicked this!')}} class="col-sm-6 col-sm-offset-3">
             <div id="imaginary_container">
                 <div class="input-group stylish-input-group">
-                    <input  onKeyUp={searchType} type="text" class="form-control"  placeholder="Search" />
+                    <input  onKeyUp={ searchType } type="text" class="form-control"  placeholder="Search" />
                     <span class="input-group-addon">
                         <button type="submit">
                             <span class="glyphicon glyphicon-search"></span>
@@ -50,13 +49,14 @@ const Layout = {
                 </div>
             </div>
             <ul id="search_list">
-            {movieSuggestions}
+            { movieSuggestions }
             </ul>
         </div>
-	</div>
+    	</div>
     )
   }
 };
+
 EX.rootComponent = Layout;
 
 EX.SetState = (() => {
