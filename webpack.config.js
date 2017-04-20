@@ -1,6 +1,6 @@
-var debug = true;
-var webpack = require('webpack');
-var path = require('path');
+const debug = false;
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   devtool: debug ? "inline-sourcemap" : false,
@@ -9,11 +9,16 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: [/node_modules/],
+        exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         query: {
-          presets: [ 'es2015']
-        }
+      presets: ['es2015', 'stage-0'],
+      plugins: [
+        ['transform-react-jsx', { //this
+          'pragma': 'EX.node'
+        }]
+      ]
+    },
       }
     ]
   },
