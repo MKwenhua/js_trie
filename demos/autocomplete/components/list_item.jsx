@@ -10,7 +10,7 @@ const ListItem = EX.component({
       if (matchText.test(text)){
         return <b>{text}</b>
       }
-      return text
+      return <span>{text}</span>
     })
     return <li onClick={clickAction}>{highlightedText}</li>
 

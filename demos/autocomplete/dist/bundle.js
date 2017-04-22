@@ -734,7 +734,11 @@ var ListItem = _ex2.default.component({
           text
         );
       }
-      return text;
+      return _ex2.default.node(
+        'span',
+        null,
+        text
+      );
     });
     return _ex2.default.node(
       'li',
