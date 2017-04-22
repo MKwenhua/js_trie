@@ -1,20 +1,28 @@
 function Trie(wordList, actions) {
+   const TrieContext = this;
    function getAction(word) {
       return actions[word] ? actions[word] : null;
    }
-   function addCharToTrie(index, word, branch, trie, punctuatedWord) {
-      if (index === word.length)
-         return trie;
-      var char = word[index];
+
+   function addCharToTrie(index, word, wordFragment, branch, trie, fragment) {
+      if (index === wordFragment.length ) return trie
+
+      let char = wordFragment[index];
+      let nodeWord = (wordFragment.length - 1) === index ? word : null
       if (!branch[char]) {
          branch[char] = {
-            word: (word.length - 1) === index ? punctuatedWord : null,
-            action: (word.length - 1) === index ? getAction(punctuatedWord) : null
+            word: nodeWord,
+            fragments: null,
+            action: (wordFragment.length - 1) === index ? getAction(word) : null
          };
       }
-
-      return addCharToTrie(index + 1, word, branch[char], trie, punctuatedWord)
+      if (fragment && nodeWord) {
+        let fragmentArray = branch[char].fragments ? branch[char].fragments : []
+        branch[char].fragments = fragmentArray.concat(nodeWord)
+      }
+      return addCharToTrie(index + 1, word, wordFragment, branch[char], trie, fragment)
    }
+
    function getBranch(charString, trie) {
       var branch = trie;
       for (var i = 0; i < charString.length; i++) {
@@ -24,20 +32,26 @@ function Trie(wordList, actions) {
          }
       return branch;
    }
-   this.words = wordList;
-   this.actions = actions;
-   this.findWords = (branch, lookupId) => {
-      var self = this;
+   TrieContext.words = wordList;
+   TrieContext.actions = actions;
+   TrieContext.foundWordsIndex = {};
+
+   TrieContext.findWords = (branch, lookupId) => {
       console.log(branch)
       var list = [];
       function mineWord(brn) {
          if (brn.word) {
-            list.push(brn.word);
-            if (list.length === self.wordLimit)
-               return list;
+            if (!TrieContext.foundWordsIndex[brn.word]) {
+              list.push(brn.word);
+              TrieContext.foundWordsIndex[brn.word] = true;
             }
+            if (list.length === TrieContext.wordLimit) return list;
+          }
+          if (brn.fragments) {
+            list.concat(brn.fragments.filter((txt) => !TrieContext.foundWordsIndex[txt] ))
+          }
          for (let key in brn) {
-            if (typeof brn[key] !== 'string' && brn[key] !== null && self.currentLoopup === lookupId) {
+            if (typeof brn[key] !== 'string' && brn[key] !== null && TrieContext.currentLoopup === lookupId) {
                mineWord(brn[key])
             }
          }
@@ -46,28 +60,38 @@ function Trie(wordList, actions) {
 
       return mineWord(branch);
    }
-   this.getWordList = (charString) => {
+   TrieContext.getWordList = (charString) => {
       var foundWords = [];
+      TrieContext.foundWordsIndex = {};
       if(!charString) return foundWords;
-      var branch = getBranch(charString, this.head);
-      if (!branch)
-         return foundWords;
+      var branch = getBranch(charString, TrieContext.head);
+      if (!branch) return foundWords;
       var lookupId = Math.random().toString(36).substring(18);
-      this.currentLoopup = lookupId;
-      return this.findWords(branch, lookupId);
+      TrieContext.currentLoopup = lookupId;
+      return TrieContext.findWords(branch, lookupId);
 
    }
 
-   this.head = wordList.reduce((tr, word) => {
-      var lw = word.toLowerCase()
-      tr[lw[0]] = tr[lw[0]] ? tr[lw[0]] : {
+   TrieContext.head = wordList.reduce((head, word) => {
+      var wordLowerCase = word.toLowerCase()
+      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
          word: null,
+         fragments: null,
          action: null
       };
-      return addCharToTrie(1, lw, tr[lw[0]], tr, word);
+      let wordFragment = wordLowerCase;
+      let headAT = addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head, false);
+      while (wordFragment.length) {
+        wordFragment = wordFragment.split(/\s+/).slice(1).join(' ')
+        if (wordFragment) {
+          headAT[wordFragment[0]] = headAT[wordFragment[0]] ? headAT[wordFragment[0]] : {word: null, fragments: null, action: null};
+          headAT =  addCharToTrie(1,word, wordFragment, headAT[wordFragment[0]] , headAT, true);
+        }
+      }
+      return headAT
    }, {});
-   this.lookup = (letters) => {
-      return this.getWordList(letters.toLowerCase())
+   TrieContext.lookup = (letters) => {
+      return TrieContext.getWordList(letters.toLowerCase())
    }
 }
 

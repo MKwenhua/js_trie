@@ -63,11 +63,25 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var EX = __webpack_require__(8)('main');
+
+exports.default = EX;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -686,7 +700,54 @@ exports.default = EventList;
 });
 
 /***/ }),
-/* 1 */
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _ex = __webpack_require__(0);
+
+var _ex2 = _interopRequireDefault(_ex);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ListItem = _ex2.default.component({
+  componentName: 'ListItem',
+  componentRender: function componentRender(props) {
+    var _props$ex_data = props.ex_data,
+        suggestion = _props$ex_data.suggestion,
+        typed = _props$ex_data.typed,
+        clickAction = _props$ex_data.clickAction;
+
+    var regex = new RegExp('(' + typed + ')', 'gi');
+    var matchText = new RegExp(typed, 'i');
+    var highlightedText = suggestion.split(regex).map(function (text, i) {
+      if (matchText.test(text)) {
+        return _ex2.default.node(
+          'b',
+          null,
+          text
+        );
+      }
+      return text;
+    });
+    return _ex2.default.node(
+      'li',
+      { onClick: clickAction },
+      highlightedText
+    );
+  }
+});
+
+exports.default = ListItem;
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -696,23 +757,30 @@ Object.defineProperty(exports, "__esModule", {
    value: true
 });
 function Trie(wordList, actions) {
-   var _this = this;
-
+   var TrieContext = this;
    function getAction(word) {
       return actions[word] ? actions[word] : null;
    }
-   function addCharToTrie(index, word, branch, trie, punctuatedWord) {
-      if (index === word.length) return trie;
-      var char = word[index];
+
+   function addCharToTrie(index, word, wordFragment, branch, trie, fragment) {
+      if (index === wordFragment.length) return trie;
+
+      var char = wordFragment[index];
+      var nodeWord = wordFragment.length - 1 === index ? word : null;
       if (!branch[char]) {
          branch[char] = {
-            word: word.length - 1 === index ? punctuatedWord : null,
-            action: word.length - 1 === index ? getAction(punctuatedWord) : null
+            word: nodeWord,
+            fragments: null,
+            action: wordFragment.length - 1 === index ? getAction(word) : null
          };
       }
-
-      return addCharToTrie(index + 1, word, branch[char], trie, punctuatedWord);
+      if (fragment && nodeWord) {
+         var fragmentArray = branch[char].fragments ? branch[char].fragments : [];
+         branch[char].fragments = fragmentArray.concat(nodeWord);
+      }
+      return addCharToTrie(index + 1, word, wordFragment, branch[char], trie, fragment);
    }
+
    function getBranch(charString, trie) {
       var branch = trie;
       for (var i = 0; i < charString.length; i++) {
@@ -721,19 +789,28 @@ function Trie(wordList, actions) {
       }
       return branch;
    }
-   this.words = wordList;
-   this.actions = actions;
-   this.findWords = function (branch, lookupId) {
-      var self = _this;
+   TrieContext.words = wordList;
+   TrieContext.actions = actions;
+   TrieContext.foundWordsIndex = {};
+
+   TrieContext.findWords = function (branch, lookupId) {
       console.log(branch);
       var list = [];
       function mineWord(brn) {
          if (brn.word) {
-            list.push(brn.word);
-            if (list.length === self.wordLimit) return list;
+            if (!TrieContext.foundWordsIndex[brn.word]) {
+               list.push(brn.word);
+               TrieContext.foundWordsIndex[brn.word] = true;
+            }
+            if (list.length === TrieContext.wordLimit) return list;
+         }
+         if (brn.fragments) {
+            list.concat(brn.fragments.filter(function (txt) {
+               return !TrieContext.foundWordsIndex[txt];
+            }));
          }
          for (var key in brn) {
-            if (typeof brn[key] !== 'string' && brn[key] !== null && self.currentLoopup === lookupId) {
+            if (typeof brn[key] !== 'string' && brn[key] !== null && TrieContext.currentLoopup === lookupId) {
                mineWord(brn[key]);
             }
          }
@@ -742,26 +819,37 @@ function Trie(wordList, actions) {
 
       return mineWord(branch);
    };
-   this.getWordList = function (charString) {
+   TrieContext.getWordList = function (charString) {
       var foundWords = [];
+      TrieContext.foundWordsIndex = {};
       if (!charString) return foundWords;
-      var branch = getBranch(charString, _this.head);
+      var branch = getBranch(charString, TrieContext.head);
       if (!branch) return foundWords;
       var lookupId = Math.random().toString(36).substring(18);
-      _this.currentLoopup = lookupId;
-      return _this.findWords(branch, lookupId);
+      TrieContext.currentLoopup = lookupId;
+      return TrieContext.findWords(branch, lookupId);
    };
 
-   this.head = wordList.reduce(function (tr, word) {
-      var lw = word.toLowerCase();
-      tr[lw[0]] = tr[lw[0]] ? tr[lw[0]] : {
+   TrieContext.head = wordList.reduce(function (head, word) {
+      var wordLowerCase = word.toLowerCase();
+      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
          word: null,
+         fragments: null,
          action: null
       };
-      return addCharToTrie(1, lw, tr[lw[0]], tr, word);
+      var wordFragment = wordLowerCase;
+      var headAT = addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head, false);
+      while (wordFragment.length) {
+         wordFragment = wordFragment.split(/\s+/).slice(1).join(' ');
+         if (wordFragment) {
+            headAT[wordFragment[0]] = headAT[wordFragment[0]] ? headAT[wordFragment[0]] : { word: null, fragments: null, action: null };
+            headAT = addCharToTrie(1, word, wordFragment, headAT[wordFragment[0]], headAT, true);
+         }
+      }
+      return headAT;
    }, {});
-   this.lookup = function (letters) {
-      return _this.getWordList(letters.toLowerCase());
+   TrieContext.lookup = function (letters) {
+      return TrieContext.getWordList(letters.toLowerCase());
    };
 }
 
@@ -772,7 +860,7 @@ function BuildTrie(wordList, actions) {
 exports.default = BuildTrie;
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -870,7 +958,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -879,41 +967,33 @@ module.exports = {
 module.exports = ["The Breakfast Club", "Real Genius", "Sixteen Candles", "Weird Science", "Pretty in Pink", "Back to the Future", "Back to the Future Part II", "Star Wars: Episode V - The Empire Strikes Back", "Star Wars: Episode VI - Return of the Jedi", "Star Trek II: The Wrath of Khan", "Star Trek IV: The Voyage Home", "E.T. the Extra-Terrestrial", "Dirty Dancing", "Platoon", "The Princess Bride", "Raiders of the Lost Ark", "Indiana Jones and the Temple of Doom", "Indiana Jones and the Last Crusade", "The Terminator", "Who Framed Roger Rabbit", "When Harry Met Sally...", "Labyrinth", "Legend", "Bill & Ted's Excellent Adventure", "Top Gun", "Footloose", "Desperately Seeking Susan", "Poltergeist", "Poltergeist II: The Other Side", "Flashdance", "Ghostbusters", "Ghostbusters II", "Gremlins", "Superman II", "Splash", "Some Kind of Wonderful", "The Legend of Billie Jean", "Risky Business", "Working Girl", "Roxanne", "Ruthless People", "The Lost Boys", "Adventures in Babysitting", "Beetlejuice", "St. Elmo's Fire", "All the Right Moves", "Mannequin", "The Karate Kid", "The Karate Kid Part II", "Weekend at Bernie's", "The Untouchables", "Die Hard", "Raising Arizona", "The Last Emperor", "A Christmas Story", "Terms of Endearment", "The Little Mermaid", "The Fox and the Hound", "Glory", "A Fish Called Wanda", "Witness", "Field of Dreams", "Moonstruck", "Ferris Bueller's Day Off", "The Road Warrior", "Mad Max Beyond Thunderdome", "Stand by Me", "Above the Law", "The Abyss", "The Accused", "Akira", "An American Tail", "The NeverEnding Story", "The Secret of NIMH", "The Last Unicorn", "An American Werewolf in London", "Anne of Green Gables", "Annie", "The Fly", "The Fly II", "Armed and Dangerous", "Batman", "The Bay Boy", "Steel Magnolias", "Beaches", "Benji the Hunted", "Beverly Hills Cop", "Beverly Hills Cop II", "Big", "The Big Chill", "The Black Cauldron", "The Black Stallion Returns", "Bloodsport", "The Blue Lagoon", "Blue Thunder", "Born on the Fourth of July", "Big Trouble in Little China", "The 'Burbs", "Caddyshack", "The Care Bears Movie", "The Muppets Take Manhattan", "Firestarter", "Cat's Eye", "Chariots of Fire", "Children of the Corn", "Child's Play", "Cocktail", "Cocoon", "Cocoon: The Return", "*batteries not included", "The Color Purple", "Commando", "Communion", "Crocodile Dundee", "Crocodile Dundee II", "Crusoe", "Cujo", "Dangerous Liaisons", "The Dark Crystal", "D.A.R.Y.L.", "Police Academy", "Police Academy 2: Their First Assignment", "Police Academy 4: Citizens on Patrol", "Police Academy 6: City Under Siege", "Date with an Angel", "Dead Calm", "Deadly Friend", "The Dead Pool", "Dead Ringers", "The Dead Zone", "D.O.A.", "Dominick and Eugene", "Dragnet", "Troop Beverly Hills", "Dream a Little Dream", "Dreamscape", "The Dream Team", "Drugstore Cowboy", "Earth Girls Are Easy", "Enemy Mine", "Escape from New York", "Lethal Weapon", "Lethal Weapon 2", "Explorers", "Fatal Attraction", "Jumpin' Jack Flash", "The Flamingo Kid", "One Crazy Summer", "Stand and Deliver", "Lean on Me", "Flight of the Navigator", "Flowers in the Attic", "Ferris Bueller's Day Off", "Highlander", "48 Hrs.", "Frantic", "From the Hip", "F/X", "Blade Runner", "Raiders of the Lost Ark", "Gleaming the Cube", "Heathers", "The Golden Child", "Good Morning, Vietnam", "Ghostbusters", "Gremlins", "The Great Outdoors", "Planes, Trains & Automobiles", "Throw Momma from the Train", "Greystoke: The Legend of Tarzan, Lord of the Apes", "Altered States", "The Rescue", "Hannah and Her Sisters", "Harry and the Hendersons", "Heavy Metal", "Her Alibi", "Hiding Out", "Honey, I Shrunk the Kids", "Hoosiers", "The Wizard", "The Name of the Rose", "The Journey of Natty Gann", "Twins", "Kickboxer", "K-9", "La Bamba", "Ladyhawke", "Lady in White", "The Land Before Time", "The Last Starfighter", "Legal Eagles", "Less Than Zero", "Little Shop of Horrors", "Look Who's Talking", "Lucas", "Major League", "The Man from Snowy River", "Return to Snowy River", "The Manhattan Project", "Married to the Mob", "Mask", "Maximum Overdrive", "Midnight Run", "Mississippi Burning", "The Money Pit", "Monkey Shines", "Moscow on the Hudson", "Moving", "Music Box", "My Science Project", "My Stepmother Is an Alien", "Mystic Pizza", "The Naked Gun: From the Files of Police Squad!", "National Lampoon's Vacation", "National Lampoon's European Vacation", "National Lampoon's Christmas Vacation", "Never Cry Wolf", "Next of Kin", "9½ Weeks", "The Big Easy", "9 to 5", "The Outsiders", "Rumble Fish", "Overboard", "Peggy Sue Got Married", "Phar Lap", "Pet Sematary", "The Philadelphia Experiment", "Pink Floyd: The Wall", "Predator", "The Presidio", "Private Benjamin", "Project X", "Quest for Fire", "Raging Bull", "Rain Man", "Red Dawn", "Red Heat", "Renegades", "Aliens", "Robocop", "Revenge of the Nerds", "Revenge of the Nerds II: Nerds in Paradise", "River's Edge", "Rock & Rule", "Romancing the Stone", "The Jewel of the Nile", "The Running Man", "Running on Empty", "Little Nikita", "Russkies", "Say Anything...", "Scanners", "Scrooged", "The Serpent and the Rainbow", "The Seventh Sign", "Short Circuit", "Sid and Nancy"];
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(0);
-} else {
-  module.exports = __webpack_require__(0);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
-
-/***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _trie = __webpack_require__(1);
+var _ex = __webpack_require__(0);
+
+var _ex2 = _interopRequireDefault(_ex);
+
+var _trie = __webpack_require__(3);
 
 var _trie2 = _interopRequireDefault(_trie);
 
+var _list_item = __webpack_require__(2);
+
+var _list_item2 = _interopRequireDefault(_list_item);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var EX = __webpack_require__(4)('main');
-
-var WordList = __webpack_require__(3);
-var WordActions = __webpack_require__(2);
+var WordList = __webpack_require__(5);
+var WordActions = __webpack_require__(4);
 var Autocomplete = (0, _trie2.default)(WordList, WordActions);
 
 var AppState = {
-  suggestions: []
+  suggestions: [],
+  typed: ""
 };
 
 var logAction = function logAction(word) {
@@ -927,53 +1007,53 @@ var searchType = function searchType(e, elem, otherNode) {
   console.log('searchType elem', elem);
   console.log('searchType otherNode', otherNode);
   var typed = elem.value.toLowerCase().trim();
-  EX.SetState({
-    suggestions: Autocomplete.lookup(typed)
+  var sugg = Autocomplete.lookup(typed);
+  console.log('sugg', sugg);
+  _ex2.default.SetState({
+    suggestions: sugg,
+    typed: typed
   });
 };
-window.auto = Autocomplete;
-console.log('WordActions', WordActions);
+
 var Layout = {
   state: AppState,
   render: function render() {
-    var suggestions = Layout.state.suggestions;
+    var _Layout$state = Layout.state,
+        suggestions = _Layout$state.suggestions,
+        typed = _Layout$state.typed;
 
 
     var movieSuggestions = suggestions.map(function (itm) {
-
-      return EX.node(
-        'li',
-        { onClick: logAction(itm) },
-        itm
-      );
+      var data = { suggestion: itm, typed: typed, clickAction: logAction(itm) };
+      return _ex2.default.node(_list_item2.default, { ex_data: data });
     });
-    return EX.node(
+    return _ex2.default.node(
       'div',
       { 'class': 'row' },
-      EX.node(
+      _ex2.default.node(
         'div',
         { onClick: function onClick() {
             console.log('clicked this!');
           }, 'class': 'col-sm-6 col-sm-offset-3' },
-        EX.node(
+        _ex2.default.node(
           'div',
           { id: 'imaginary_container' },
-          EX.node(
+          _ex2.default.node(
             'div',
             { 'class': 'input-group stylish-input-group' },
-            EX.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
-            EX.node(
+            _ex2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
+            _ex2.default.node(
               'span',
               { 'class': 'input-group-addon' },
-              EX.node(
+              _ex2.default.node(
                 'button',
                 { type: 'submit' },
-                EX.node('span', { 'class': 'glyphicon glyphicon-search' })
+                _ex2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
               )
             )
           )
         ),
-        EX.node(
+        _ex2.default.node(
           'ul',
           { id: 'search_list' },
           movieSuggestions
@@ -982,19 +1062,20 @@ var Layout = {
     );
   }
 };
-EX.rootComponent = Layout;
 
-EX.SetState = function () {
+_ex2.default.rootComponent = Layout;
+
+_ex2.default.SetState = function () {
   return function (payload) {
     Layout.state = Object.assign({}, Layout.state, payload);
-    EX.objectChange(Layout.render());
+    _ex2.default.objectChange(Layout.render());
   };
 }();
 
-EX.createComponent(Layout.render(), document.getElementById('root'));
+_ex2.default.createComponent(Layout.render(), document.getElementById('root'));
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1178,6 +1259,21 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(1);
+} else {
+  module.exports = __webpack_require__(1);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ })
 /******/ ]);

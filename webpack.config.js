@@ -5,6 +5,13 @@ const path = require('path');
 module.exports = {
   devtool: debug ? "inline-sourcemap" : false,
   entry: "./demos/autocomplete/main.js",
+  resolve: {
+   extensions: ['.js', '.jsx'],
+   alias: {
+     src: path.resolve( __dirname, 'demos/autocomplete/src'),
+     ex: path.resolve( __dirname, 'demos/autocomplete/src/ex.js')
+   }
+ },
   module: {
     loaders: [
       {

@@ -1,11 +1,13 @@
-const EX = require('reactalike')('main')
-import BuildTrie from './src/trie.js';
-const WordList = require('./src/word_list.js');
-const WordActions = require('./src/word_actions.js');
+import EX from 'ex'
+import BuildTrie from 'src/trie';
+import ListItem from './components/list_item'
+const WordList = require('src/word_list');
+const WordActions = require('src/word_actions');
 const Autocomplete = BuildTrie(WordList, WordActions);
 
 const AppState = {
- suggestions: []
+ suggestions: [],
+ typed: ""
 }
 
 const logAction = (word) => {
@@ -19,8 +21,11 @@ const searchType = (e, elem, otherNode) => {
   console.log('searchType elem', elem)
   console.log('searchType otherNode', otherNode)
 	let typed = elem.value.toLowerCase().trim()
+  let sugg = Autocomplete.lookup(typed)
+  console.log('sugg', sugg)
     EX.SetState({
-    suggestions: Autocomplete.lookup(typed)
+    suggestions: sugg,
+    typed: typed
   });
 }
 
@@ -28,12 +33,13 @@ const Layout = {
   state: AppState,
   render: () => {
     let {
-      suggestions
+      suggestions,
+      typed
     } = Layout.state;
 
     let movieSuggestions = suggestions.map((itm) => {
-
-    	return <li onClick={logAction(itm)}>{itm}</li>
+      let data = {suggestion: itm, typed: typed, clickAction: logAction(itm)}
+      return <ListItem ex_data={data}/>
     })
     return (
     	<div class="row">

@@ -1,17 +1,23 @@
 function Trie(wordList) {
-   function addCharToTrie(index, word, branch, trie) {
-      if (index === word.length)
-         return trie;
-      var char = word[index];
+   function addCharToTrie(index, word, wordFragment, branch, trie) {
+      if (index === wordFragment.length) {
+        let nextFragment = wordFragment.split(/\s+/).slice(1).join(' ')
+        if(!nextFragment.length) return trie
+
+        trie[nextFragment[0]] = trie[nextFragment[0]] ? trie[nextFragment[0]] : {word: null};
+        return addCharToTrie(1,word, nextFragment, trie[nextFragment[0]] , trie);
+      }
+      var char = wordFragment[index];
       if (!branch[char]) {
          branch[char] = {
             word: null,
             action: null
          };
       }
-      branch[char].word = (word.length - 1) === index ? word : null;
 
-      return addCharToTrie(index + 1, word, branch[char], trie)
+      branch[char].word = (wordFragment.length - 1) === index ? word : null;
+
+      return addCharToTrie(index + 1, word, wordFragment, branch[char], trie)
    }
    function getBranch(charString, trie) {
       var branch = trie;
@@ -55,13 +61,13 @@ function Trie(wordList) {
    }
 
    this.words = wordList;
-   this.head = wordList.reduce((tr, word) => {
-      var lw = word.toLowerCase()
-      tr[lw[0]] = tr[lw[0]] ? tr[lw[0]] : {
+   this.head = wordList.reduce((head, word) => {
+      var wordLowerCase = word.toLowerCase()
+      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
          word: null,
          action: null
       };
-      return addCharToTrie(1, lw, tr[lw[0]], tr);
+      return addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head);
    }, {});
    this.lookup = (letters) => {
       return this.getWordList(letters.toLowerCase())
