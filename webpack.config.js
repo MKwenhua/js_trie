@@ -9,7 +9,8 @@ module.exports = {
    extensions: ['.js', '.jsx'],
    alias: {
      src: path.resolve( __dirname, 'demos/autocomplete/src'),
-     ex: path.resolve( __dirname, 'demos/autocomplete/src/ex.js')
+     component:  path.resolve( __dirname, 'demos/autocomplete/components'),
+     container:  path.resolve( __dirname, 'demos/autocomplete/containers')
    }
  },
   module: {

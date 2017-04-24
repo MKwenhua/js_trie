@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,7 +79,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports = __webpack_require__(1);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 1 */
@@ -703,6 +703,108 @@ var _reactalike = __webpack_require__(0);
 
 var _reactalike2 = _interopRequireDefault(_reactalike);
 
+var _trie = __webpack_require__(5);
+
+var _trie2 = _interopRequireDefault(_trie);
+
+var _list_item = __webpack_require__(3);
+
+var _list_item2 = _interopRequireDefault(_list_item);
+
+var _appstate = __webpack_require__(8);
+
+var _appstate2 = _interopRequireDefault(_appstate);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var WordList = __webpack_require__(7);
+var WordActions = __webpack_require__(6);
+var Autocomplete = (0, _trie2.default)(WordList, WordActions);
+
+var logAction = function logAction(word) {
+  return function () {
+
+    console.log('WordActions[word]', word, WordActions[word]);
+  };
+};
+var searchType = function searchType(e, elem, otherNode) {
+  console.log('searchType e', e);
+  console.log('searchType elem', elem);
+  console.log('searchType otherNode', otherNode);
+  var typed = elem.value.toLowerCase().trim();
+  var sugg = Autocomplete.lookup(typed);
+  console.log('sugg', sugg);
+  _reactalike2.default.SetState({
+    suggestions: sugg,
+    typed: typed
+  });
+};
+
+var Layout = {
+  state: _appstate2.default,
+  render: function render() {
+    var _Layout$state = Layout.state,
+        suggestions = _Layout$state.suggestions,
+        typed = _Layout$state.typed;
+
+
+    var movieSuggestions = suggestions.map(function (itm) {
+      var data = { suggestion: itm, typed: typed, clickAction: logAction(itm) };
+      return _reactalike2.default.node(_list_item2.default, { ex_data: data });
+    });
+    return _reactalike2.default.node(
+      'div',
+      { 'class': 'row' },
+      _reactalike2.default.node(
+        'div',
+        { onClick: function onClick() {
+            console.log('clicked this!');
+          }, 'class': 'col-sm-6 col-sm-offset-3' },
+        _reactalike2.default.node(
+          'div',
+          { id: 'imaginary_container' },
+          _reactalike2.default.node(
+            'div',
+            { 'class': 'input-group stylish-input-group' },
+            _reactalike2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
+            _reactalike2.default.node(
+              'span',
+              { 'class': 'input-group-addon' },
+              _reactalike2.default.node(
+                'button',
+                { type: 'submit' },
+                _reactalike2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
+              )
+            )
+          )
+        ),
+        _reactalike2.default.node(
+          'ul',
+          { id: 'search_list' },
+          movieSuggestions
+        )
+      )
+    );
+  }
+};
+
+exports.default = Layout;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactalike = __webpack_require__(0);
+
+var _reactalike2 = _interopRequireDefault(_reactalike);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ListItem = _reactalike2.default.component({
@@ -740,7 +842,35 @@ var ListItem = _reactalike2.default.component({
 exports.default = ListItem;
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _reactalike = __webpack_require__(0);
+
+var _reactalike2 = _interopRequireDefault(_reactalike);
+
+var _layout = __webpack_require__(2);
+
+var _layout2 = _interopRequireDefault(_layout);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_reactalike2.default.rootComponent = _layout2.default;
+
+_reactalike2.default.SetState = function () {
+  return function (payload) {
+    _layout2.default.state = Object.assign({}, _layout2.default.state, payload);
+    _reactalike2.default.objectChange(_layout2.default.render());
+  };
+}();
+
+_reactalike2.default.createComponent(_layout2.default.render(), document.getElementById('root'));
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -853,7 +983,7 @@ function BuildTrie(wordList, actions) {
 exports.default = BuildTrie;
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -951,7 +1081,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -960,115 +1090,24 @@ module.exports = {
 module.exports = ["The Breakfast Club", "Real Genius", "Sixteen Candles", "Weird Science", "Pretty in Pink", "Back to the Future", "Back to the Future Part II", "Star Wars: Episode V - The Empire Strikes Back", "Star Wars: Episode VI - Return of the Jedi", "Star Trek II: The Wrath of Khan", "Star Trek IV: The Voyage Home", "E.T. the Extra-Terrestrial", "Dirty Dancing", "Platoon", "The Princess Bride", "Raiders of the Lost Ark", "Indiana Jones and the Temple of Doom", "Indiana Jones and the Last Crusade", "The Terminator", "Who Framed Roger Rabbit", "When Harry Met Sally...", "Labyrinth", "Legend", "Bill & Ted's Excellent Adventure", "Top Gun", "Footloose", "Desperately Seeking Susan", "Poltergeist", "Poltergeist II: The Other Side", "Flashdance", "Ghostbusters", "Ghostbusters II", "Gremlins", "Superman II", "Splash", "Some Kind of Wonderful", "The Legend of Billie Jean", "Risky Business", "Working Girl", "Roxanne", "Ruthless People", "The Lost Boys", "Adventures in Babysitting", "Beetlejuice", "St. Elmo's Fire", "All the Right Moves", "Mannequin", "The Karate Kid", "The Karate Kid Part II", "Weekend at Bernie's", "The Untouchables", "Die Hard", "Raising Arizona", "The Last Emperor", "A Christmas Story", "Terms of Endearment", "The Little Mermaid", "The Fox and the Hound", "Glory", "A Fish Called Wanda", "Witness", "Field of Dreams", "Moonstruck", "Ferris Bueller's Day Off", "The Road Warrior", "Mad Max Beyond Thunderdome", "Stand by Me", "Above the Law", "The Abyss", "The Accused", "Akira", "An American Tail", "The NeverEnding Story", "The Secret of NIMH", "The Last Unicorn", "An American Werewolf in London", "Anne of Green Gables", "Annie", "The Fly", "The Fly II", "Armed and Dangerous", "Batman", "The Bay Boy", "Steel Magnolias", "Beaches", "Benji the Hunted", "Beverly Hills Cop", "Beverly Hills Cop II", "Big", "The Big Chill", "The Black Cauldron", "The Black Stallion Returns", "Bloodsport", "The Blue Lagoon", "Blue Thunder", "Born on the Fourth of July", "Big Trouble in Little China", "The 'Burbs", "Caddyshack", "The Care Bears Movie", "The Muppets Take Manhattan", "Firestarter", "Cat's Eye", "Chariots of Fire", "Children of the Corn", "Child's Play", "Cocktail", "Cocoon", "Cocoon: The Return", "*batteries not included", "The Color Purple", "Commando", "Communion", "Crocodile Dundee", "Crocodile Dundee II", "Crusoe", "Cujo", "Dangerous Liaisons", "The Dark Crystal", "D.A.R.Y.L.", "Police Academy", "Police Academy 2: Their First Assignment", "Police Academy 4: Citizens on Patrol", "Police Academy 6: City Under Siege", "Date with an Angel", "Dead Calm", "Deadly Friend", "The Dead Pool", "Dead Ringers", "The Dead Zone", "D.O.A.", "Dominick and Eugene", "Dragnet", "Troop Beverly Hills", "Dream a Little Dream", "Dreamscape", "The Dream Team", "Drugstore Cowboy", "Earth Girls Are Easy", "Enemy Mine", "Escape from New York", "Lethal Weapon", "Lethal Weapon 2", "Explorers", "Fatal Attraction", "Jumpin' Jack Flash", "The Flamingo Kid", "One Crazy Summer", "Stand and Deliver", "Lean on Me", "Flight of the Navigator", "Flowers in the Attic", "Ferris Bueller's Day Off", "Highlander", "48 Hrs.", "Frantic", "From the Hip", "F/X", "Blade Runner", "Raiders of the Lost Ark", "Gleaming the Cube", "Heathers", "The Golden Child", "Good Morning, Vietnam", "Ghostbusters", "Gremlins", "The Great Outdoors", "Planes, Trains & Automobiles", "Throw Momma from the Train", "Greystoke: The Legend of Tarzan, Lord of the Apes", "Altered States", "The Rescue", "Hannah and Her Sisters", "Harry and the Hendersons", "Heavy Metal", "Her Alibi", "Hiding Out", "Honey, I Shrunk the Kids", "Hoosiers", "The Wizard", "The Name of the Rose", "The Journey of Natty Gann", "Twins", "Kickboxer", "K-9", "La Bamba", "Ladyhawke", "Lady in White", "The Land Before Time", "The Last Starfighter", "Legal Eagles", "Less Than Zero", "Little Shop of Horrors", "Look Who's Talking", "Lucas", "Major League", "The Man from Snowy River", "Return to Snowy River", "The Manhattan Project", "Married to the Mob", "Mask", "Maximum Overdrive", "Midnight Run", "Mississippi Burning", "The Money Pit", "Monkey Shines", "Moscow on the Hudson", "Moving", "Music Box", "My Science Project", "My Stepmother Is an Alien", "Mystic Pizza", "The Naked Gun: From the Files of Police Squad!", "National Lampoon's Vacation", "National Lampoon's European Vacation", "National Lampoon's Christmas Vacation", "Never Cry Wolf", "Next of Kin", "9½ Weeks", "The Big Easy", "9 to 5", "The Outsiders", "Rumble Fish", "Overboard", "Peggy Sue Got Married", "Phar Lap", "Pet Sematary", "The Philadelphia Experiment", "Pink Floyd: The Wall", "Predator", "The Presidio", "Private Benjamin", "Project X", "Quest for Fire", "Raging Bull", "Rain Man", "Red Dawn", "Red Heat", "Renegades", "Aliens", "Robocop", "Revenge of the Nerds", "Revenge of the Nerds II: Nerds in Paradise", "River's Edge", "Rock & Rule", "Romancing the Stone", "The Jewel of the Nile", "The Running Man", "Running on Empty", "Little Nikita", "Russkies", "Say Anything...", "Scanners", "Scrooged", "The Serpent and the Rainbow", "The Seventh Sign", "Short Circuit", "Sid and Nancy"];
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _reactalike = __webpack_require__(0);
-
-var _reactalike2 = _interopRequireDefault(_reactalike);
-
-var _trie = __webpack_require__(3);
-
-var _trie2 = _interopRequireDefault(_trie);
-
-var _list_item = __webpack_require__(2);
-
-var _list_item2 = _interopRequireDefault(_list_item);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var WordList = __webpack_require__(5);
-var WordActions = __webpack_require__(4);
-var Autocomplete = (0, _trie2.default)(WordList, WordActions);
-
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var AppState = {
   suggestions: [],
   typed: ""
 };
 
-var logAction = function logAction(word) {
-  return function () {
-
-    console.log('WordActions[word]', word, WordActions[word]);
-  };
-};
-var searchType = function searchType(e, elem, otherNode) {
-  console.log('searchType e', e);
-  console.log('searchType elem', elem);
-  console.log('searchType otherNode', otherNode);
-  var typed = elem.value.toLowerCase().trim();
-  var sugg = Autocomplete.lookup(typed);
-  console.log('sugg', sugg);
-  _reactalike2.default.SetState({
-    suggestions: sugg,
-    typed: typed
-  });
-};
-
-var Layout = {
-  state: AppState,
-  render: function render() {
-    var _Layout$state = Layout.state,
-        suggestions = _Layout$state.suggestions,
-        typed = _Layout$state.typed;
-
-
-    var movieSuggestions = suggestions.map(function (itm) {
-      var data = { suggestion: itm, typed: typed, clickAction: logAction(itm) };
-      return _reactalike2.default.node(_list_item2.default, { ex_data: data });
-    });
-    return _reactalike2.default.node(
-      'div',
-      { 'class': 'row' },
-      _reactalike2.default.node(
-        'div',
-        { onClick: function onClick() {
-            console.log('clicked this!');
-          }, 'class': 'col-sm-6 col-sm-offset-3' },
-        _reactalike2.default.node(
-          'div',
-          { id: 'imaginary_container' },
-          _reactalike2.default.node(
-            'div',
-            { 'class': 'input-group stylish-input-group' },
-            _reactalike2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
-            _reactalike2.default.node(
-              'span',
-              { 'class': 'input-group-addon' },
-              _reactalike2.default.node(
-                'button',
-                { type: 'submit' },
-                _reactalike2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
-              )
-            )
-          )
-        ),
-        _reactalike2.default.node(
-          'ul',
-          { id: 'search_list' },
-          movieSuggestions
-        )
-      )
-    );
-  }
-};
-
-_reactalike2.default.rootComponent = Layout;
-
-_reactalike2.default.SetState = function () {
-  return function (payload) {
-    Layout.state = Object.assign({}, Layout.state, payload);
-    _reactalike2.default.objectChange(Layout.render());
-  };
-}();
-
-_reactalike2.default.createComponent(Layout.render(), document.getElementById('root'));
+exports.default = AppState;
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
