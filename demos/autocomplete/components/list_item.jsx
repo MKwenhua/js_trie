@@ -1,9 +1,8 @@
 import EX from 'reactalike'
 
-const ListItem = EX.component({
-  componentName: 'ListItem',
-  componentRender: (props) => {
-    let {suggestion, typed, clickAction} = props.ex_data
+class ListItem extends EX.Component {
+  render() {
+    let {suggestion, typed, clickAction} = this.props.ex_data
     let regex = new RegExp( '(' + typed + ')', 'gi')
     let matchText = new RegExp( typed, 'i')
     let highlightedText = suggestion.split(regex).map((text, i) => {
@@ -15,6 +14,5 @@ const ListItem = EX.component({
     return <li onClick={clickAction}>{highlightedText}</li>
 
   }
-});
-
+}
 export default ListItem

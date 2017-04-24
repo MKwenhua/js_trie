@@ -352,7 +352,6 @@ function flattenIteration(arr, flatArr) {
 module.exports = {
    smoothArray: function smoothArray() {
       return function (nested) {
-         // if( Array.isArray(nested) ) return [];
 
          return nested.reduce(_flatten, []).filter(function (ne) {
             return ne !== null && ne !== undefined;
@@ -642,6 +641,10 @@ NodeMap.prototype.component = function (obj) {
    }
 };
 
+NodeMap.prototype.Component = function Component(props) {
+   this.props = props;
+};
+
 NodeMap.prototype.node = function (type) {
    for (var _len = arguments.length, nested = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
       nested[_key - 2] = arguments[_key];
@@ -649,9 +652,15 @@ NodeMap.prototype.node = function (type) {
 
    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+   console.log('EX.node', type);
+
    if (typeof type === "function") {
+      if (type.__proto__.name === 'Component') {
+         return new type(props).render();
+      }
       return type(props);
    }
+
    if (nested) {
       nested = smoothNested(nested);
    } else {
@@ -728,9 +737,6 @@ var logAction = function logAction(word) {
   };
 };
 var searchType = function searchType(e, elem, otherNode) {
-  console.log('searchType e', e);
-  console.log('searchType elem', elem);
-  console.log('searchType otherNode', otherNode);
   var typed = elem.value.toLowerCase().trim();
   var sugg = Autocomplete.lookup(typed);
   console.log('sugg', sugg);
@@ -801,43 +807,63 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _reactalike = __webpack_require__(0);
 
 var _reactalike2 = _interopRequireDefault(_reactalike);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ListItem = _reactalike2.default.component({
-  componentName: 'ListItem',
-  componentRender: function componentRender(props) {
-    var _props$ex_data = props.ex_data,
-        suggestion = _props$ex_data.suggestion,
-        typed = _props$ex_data.typed,
-        clickAction = _props$ex_data.clickAction;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    var regex = new RegExp('(' + typed + ')', 'gi');
-    var matchText = new RegExp(typed, 'i');
-    var highlightedText = suggestion.split(regex).map(function (text, i) {
-      if (matchText.test(text)) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ListItem = function (_EX$Component) {
+  _inherits(ListItem, _EX$Component);
+
+  function ListItem() {
+    _classCallCheck(this, ListItem);
+
+    return _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).apply(this, arguments));
+  }
+
+  _createClass(ListItem, [{
+    key: 'render',
+    value: function render() {
+      var _props$ex_data = this.props.ex_data,
+          suggestion = _props$ex_data.suggestion,
+          typed = _props$ex_data.typed,
+          clickAction = _props$ex_data.clickAction;
+
+      var regex = new RegExp('(' + typed + ')', 'gi');
+      var matchText = new RegExp(typed, 'i');
+      var highlightedText = suggestion.split(regex).map(function (text, i) {
+        if (matchText.test(text)) {
+          return _reactalike2.default.node(
+            'b',
+            null,
+            text
+          );
+        }
         return _reactalike2.default.node(
-          'b',
+          'span',
           null,
           text
         );
-      }
+      });
       return _reactalike2.default.node(
-        'span',
-        null,
-        text
+        'li',
+        { onClick: clickAction },
+        highlightedText
       );
-    });
-    return _reactalike2.default.node(
-      'li',
-      { onClick: clickAction },
-      highlightedText
-    );
-  }
-});
+    }
+  }]);
+
+  return ListItem;
+}(_reactalike2.default.Component);
 
 exports.default = ListItem;
 

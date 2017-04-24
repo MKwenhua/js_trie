@@ -1,7 +1,6 @@
 import EX from 'reactalike'
 import Layout from 'container/layout'
 
-
 EX.rootComponent = Layout;
 
 EX.SetState = (() => {
