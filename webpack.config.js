@@ -21,7 +21,7 @@ module.exports = {
         query: {
       presets: ['es2015', 'stage-0'],
       plugins: [
-        ['transform-react-jsx', { //this
+        ['transform-react-jsx', {
           'pragma': 'EX.node'
         }]
       ]

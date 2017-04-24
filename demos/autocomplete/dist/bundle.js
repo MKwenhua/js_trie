@@ -71,30 +71,22 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
 
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(1);
+} else {
+  module.exports = __webpack_require__(1);
+}
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var EX = __webpack_require__(8)('main');
-
-exports.default = EX;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(true)
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["exNode"] = factory();
-	else
-		root["exNode"] = factory();
-})(this, function() {
-return /******/ (function(modules) { // webpackBootstrap
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -385,6 +377,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
    value: true
 });
+exports.exNode = undefined;
 
 var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -676,10 +669,7 @@ function exNode(appName) {
 
 var EX = exNode('main');
 exports.default = EX;
-//exports = exNode
-// export default exNode/
-
-module.exports = exNode;
+exports.exNode = exNode;
 
 /***/ }),
 /* 4 */
@@ -697,7 +687,6 @@ exports.default = EventList;
 
 /***/ })
 /******/ ]);
-});
 
 /***/ }),
 /* 2 */
@@ -710,13 +699,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ex = __webpack_require__(0);
+var _reactalike = __webpack_require__(0);
 
-var _ex2 = _interopRequireDefault(_ex);
+var _reactalike2 = _interopRequireDefault(_reactalike);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ListItem = _ex2.default.component({
+var ListItem = _reactalike2.default.component({
   componentName: 'ListItem',
   componentRender: function componentRender(props) {
     var _props$ex_data = props.ex_data,
@@ -728,19 +717,19 @@ var ListItem = _ex2.default.component({
     var matchText = new RegExp(typed, 'i');
     var highlightedText = suggestion.split(regex).map(function (text, i) {
       if (matchText.test(text)) {
-        return _ex2.default.node(
+        return _reactalike2.default.node(
           'b',
           null,
           text
         );
       }
-      return _ex2.default.node(
+      return _reactalike2.default.node(
         'span',
         null,
         text
       );
     });
-    return _ex2.default.node(
+    return _reactalike2.default.node(
       'li',
       { onClick: clickAction },
       highlightedText
@@ -977,9 +966,9 @@ module.exports = ["The Breakfast Club", "Real Genius", "Sixteen Candles", "Weird
 "use strict";
 
 
-var _ex = __webpack_require__(0);
+var _reactalike = __webpack_require__(0);
 
-var _ex2 = _interopRequireDefault(_ex);
+var _reactalike2 = _interopRequireDefault(_reactalike);
 
 var _trie = __webpack_require__(3);
 
@@ -1013,7 +1002,7 @@ var searchType = function searchType(e, elem, otherNode) {
   var typed = elem.value.toLowerCase().trim();
   var sugg = Autocomplete.lookup(typed);
   console.log('sugg', sugg);
-  _ex2.default.SetState({
+  _reactalike2.default.SetState({
     suggestions: sugg,
     typed: typed
   });
@@ -1029,35 +1018,35 @@ var Layout = {
 
     var movieSuggestions = suggestions.map(function (itm) {
       var data = { suggestion: itm, typed: typed, clickAction: logAction(itm) };
-      return _ex2.default.node(_list_item2.default, { ex_data: data });
+      return _reactalike2.default.node(_list_item2.default, { ex_data: data });
     });
-    return _ex2.default.node(
+    return _reactalike2.default.node(
       'div',
       { 'class': 'row' },
-      _ex2.default.node(
+      _reactalike2.default.node(
         'div',
         { onClick: function onClick() {
             console.log('clicked this!');
           }, 'class': 'col-sm-6 col-sm-offset-3' },
-        _ex2.default.node(
+        _reactalike2.default.node(
           'div',
           { id: 'imaginary_container' },
-          _ex2.default.node(
+          _reactalike2.default.node(
             'div',
             { 'class': 'input-group stylish-input-group' },
-            _ex2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
-            _ex2.default.node(
+            _reactalike2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
+            _reactalike2.default.node(
               'span',
               { 'class': 'input-group-addon' },
-              _ex2.default.node(
+              _reactalike2.default.node(
                 'button',
                 { type: 'submit' },
-                _ex2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
+                _reactalike2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
               )
             )
           )
         ),
-        _ex2.default.node(
+        _reactalike2.default.node(
           'ul',
           { id: 'search_list' },
           movieSuggestions
@@ -1067,16 +1056,16 @@ var Layout = {
   }
 };
 
-_ex2.default.rootComponent = Layout;
+_reactalike2.default.rootComponent = Layout;
 
-_ex2.default.SetState = function () {
+_reactalike2.default.SetState = function () {
   return function (payload) {
     Layout.state = Object.assign({}, Layout.state, payload);
-    _ex2.default.objectChange(Layout.render());
+    _reactalike2.default.objectChange(Layout.render());
   };
 }();
 
-_ex2.default.createComponent(Layout.render(), document.getElementById('root'));
+_reactalike2.default.createComponent(Layout.render(), document.getElementById('root'));
 
 /***/ }),
 /* 7 */
@@ -1263,21 +1252,6 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(1);
-} else {
-  module.exports = __webpack_require__(1);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ })
 /******/ ]);

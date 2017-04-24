@@ -1,4 +1,4 @@
-import EX from 'ex'
+import EX from 'reactalike'
 
 const ListItem = EX.component({
   componentName: 'ListItem',

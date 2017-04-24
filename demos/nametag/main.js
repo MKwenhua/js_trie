@@ -1,4 +1,4 @@
-import EX from 'reactalike';
+import EX, { exNode }  from 'reactalike';
 
 const theEvent = (prp) => {
   return () => {

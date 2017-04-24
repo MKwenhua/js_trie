@@ -1,4 +1,4 @@
-import EX from 'ex'
+import EX from 'reactalike'
 import BuildTrie from 'src/trie';
 import ListItem from './components/list_item'
 const WordList = require('src/word_list');
