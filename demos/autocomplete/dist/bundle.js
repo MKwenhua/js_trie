@@ -513,6 +513,14 @@ function NodeMap() {
 
    this.mountAppToNode = function (AppContainer, containerElement) {
       NodeMapContext.rootComponent = AppContainer;
+      AppContainer.state = AppContainer.state ? AppContainer.state : {};
+      NodeMapContext.SetState = function () {
+         return function (payload) {
+            AppContainer.state = Object.assign({}, AppContainer.state, payload);
+            NodeMapContext.objectChange(AppContainer.render());
+         };
+      }();
+
       if (NodeMapContext.getElement(containerElement)) {
          var appRender = AppContainer.render();
          appRender.domElement = NodeMapContext.appRoot;
@@ -620,10 +628,6 @@ function NodeMap() {
    this.updateElement = function (oldNode, newNode) {
       NodeMapContext.diffElements(NodeMapContext.appRootDom, newNode, oldNode);
       NodeMapContext.domComponents = Object.assign({}, oldNode, newNode);
-   };
-
-   this.SetState = function (data) {
-      console.log('not yet set');
    };
 };
 
@@ -884,13 +888,6 @@ var _layout = __webpack_require__(2);
 var _layout2 = _interopRequireDefault(_layout);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_reactalike2.default.SetState = function () {
-  return function (payload) {
-    _layout2.default.state = Object.assign({}, _layout2.default.state, payload);
-    _reactalike2.default.objectChange(_layout2.default.render());
-  };
-}();
 
 _reactalike2.default.mountAppToNode(_layout2.default, document.getElementById('root'));
 
