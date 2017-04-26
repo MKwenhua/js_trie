@@ -511,11 +511,12 @@ function NodeMap() {
       NodeMapContext.mountedCallbacks = [];
    };
 
-   this.createComponent = function (obj, containerElement) {
-
+   this.mountAppToNode = function (AppContainer, containerElement) {
+      NodeMapContext.rootComponent = AppContainer;
       if (NodeMapContext.getElement(containerElement)) {
-         obj.domElement = NodeMapContext.appRoot;
-         NodeMapContext.mountApp(obj);
+         var appRender = AppContainer.render();
+         appRender.domElement = NodeMapContext.appRoot;
+         NodeMapContext.mountApp(appRender);
       };
    };
 
@@ -884,8 +885,6 @@ var _layout2 = _interopRequireDefault(_layout);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactalike2.default.rootComponent = _layout2.default;
-
 _reactalike2.default.SetState = function () {
   return function (payload) {
     _layout2.default.state = Object.assign({}, _layout2.default.state, payload);
@@ -893,7 +892,7 @@ _reactalike2.default.SetState = function () {
   };
 }();
 
-_reactalike2.default.createComponent(_layout2.default.render(), document.getElementById('root'));
+_reactalike2.default.mountAppToNode(_layout2.default, document.getElementById('root'));
 
 /***/ }),
 /* 5 */

@@ -1,8 +1,6 @@
 import EX from 'reactalike'
 import Layout from 'container/layout'
 
-EX.rootComponent = Layout;
-
 EX.SetState = (() => {
   return (payload) => {
     Layout.state = Object.assign({}, Layout.state, payload);
@@ -10,5 +8,5 @@ EX.SetState = (() => {
   }
 })();
 
-EX.createComponent(
-  Layout.render(), document.getElementById('root'));
+EX.mountAppToNode(
+  Layout , document.getElementById('root'));
