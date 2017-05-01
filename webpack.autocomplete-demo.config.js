@@ -9,6 +9,7 @@ module.exports = {
    extensions: ['.js', '.jsx'],
    alias: {
      src: path.resolve( __dirname, 'demos/autocomplete/src'),
+     buildtrie: path.resolve( __dirname, 'dist/buildtrie.js'),
      component:  path.resolve( __dirname, 'demos/autocomplete/components'),
      container:  path.resolve( __dirname, 'demos/autocomplete/containers')
    }

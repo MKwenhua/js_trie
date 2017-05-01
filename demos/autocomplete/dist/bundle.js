@@ -761,23 +761,23 @@ var _reactalike = __webpack_require__(0);
 
 var _reactalike2 = _interopRequireDefault(_reactalike);
 
-var _trie = __webpack_require__(5);
+var _buildtrie = __webpack_require__(8);
 
-var _trie2 = _interopRequireDefault(_trie);
+var _buildtrie2 = _interopRequireDefault(_buildtrie);
 
 var _list_item = __webpack_require__(3);
 
 var _list_item2 = _interopRequireDefault(_list_item);
 
-var _appstate = __webpack_require__(8);
+var _appstate = __webpack_require__(7);
 
 var _appstate2 = _interopRequireDefault(_appstate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var WordList = __webpack_require__(7);
-var WordActions = __webpack_require__(6);
-var Autocomplete = (0, _trie2.default)(WordList, WordActions);
+var WordList = __webpack_require__(6);
+var WordActions = __webpack_require__(5);
+var Autocomplete = (0, _buildtrie2.default)(WordList, WordActions);
 
 var logAction = function logAction(word) {
   return function () {
@@ -942,119 +942,6 @@ _reactalike2.default.mountAppToNode(_layout2.default, document.getElementById('r
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-   value: true
-});
-function Trie(wordList, actions) {
-   var TrieContext = this;
-   function getAction(word) {
-      return actions[word] ? actions[word] : null;
-   }
-
-   function addCharToTrie(index, word, wordFragment, branch, trie, fragment) {
-      if (index === wordFragment.length) return trie;
-
-      var char = wordFragment[index];
-      var nodeWord = wordFragment.length - 1 === index ? word : null;
-      if (!branch[char]) {
-         branch[char] = {
-            word: nodeWord,
-            fragments: null,
-            action: wordFragment.length - 1 === index ? getAction(word) : null
-         };
-      }
-      if (fragment && nodeWord) {
-         var fragmentArray = branch[char].fragments ? branch[char].fragments : [];
-         branch[char].fragments = fragmentArray.concat(nodeWord);
-      }
-      return addCharToTrie(index + 1, word, wordFragment, branch[char], trie, fragment);
-   }
-
-   function getBranch(charString, trie) {
-      var branch = trie;
-      for (var i = 0; i < charString.length; i++) {
-         branch = branch[charString[i]];
-         if (!branch) return null;
-      }
-      return branch;
-   }
-   TrieContext.words = wordList;
-   TrieContext.actions = actions;
-   TrieContext.foundWordsIndex = {};
-
-   TrieContext.findWords = function (branch, lookupId) {
-      console.log(branch);
-      var list = [];
-      function mineWord(brn) {
-         if (brn.word) {
-            if (!TrieContext.foundWordsIndex[brn.word]) {
-               list.push(brn.word);
-               TrieContext.foundWordsIndex[brn.word] = true;
-            }
-            if (list.length === TrieContext.wordLimit) return list;
-         }
-         if (brn.fragments) {
-            list.concat(brn.fragments.filter(function (txt) {
-               return !TrieContext.foundWordsIndex[txt];
-            }));
-         }
-         for (var key in brn) {
-            if (typeof brn[key] !== 'string' && brn[key] !== null && TrieContext.currentLoopup === lookupId) {
-               mineWord(brn[key]);
-            }
-         }
-         return list;
-      }
-
-      return mineWord(branch);
-   };
-   TrieContext.getWordList = function (charString) {
-      var foundWords = [];
-      TrieContext.foundWordsIndex = {};
-      if (!charString) return foundWords;
-      var branch = getBranch(charString, TrieContext.head);
-      if (!branch) return foundWords;
-      var lookupId = Math.random().toString(36).substring(18);
-      TrieContext.currentLoopup = lookupId;
-      return TrieContext.findWords(branch, lookupId);
-   };
-
-   TrieContext.head = wordList.reduce(function (head, word) {
-      var wordLowerCase = word.toLowerCase();
-      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
-         word: null,
-         fragments: null,
-         action: null
-      };
-      var wordFragment = wordLowerCase;
-      var headAT = addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head, false);
-      while (wordFragment.length) {
-         wordFragment = wordFragment.split(/\s+/).slice(1).join(' ');
-         if (wordFragment) {
-            headAT[wordFragment[0]] = headAT[wordFragment[0]] ? headAT[wordFragment[0]] : { word: null, fragments: null, action: null };
-            headAT = addCharToTrie(1, word, wordFragment, headAT[wordFragment[0]], headAT, true);
-         }
-      }
-      return headAT;
-   }, {});
-   TrieContext.lookup = function (letters) {
-      return TrieContext.getWordList(letters.toLowerCase());
-   };
-}
-
-function BuildTrie(wordList, actions) {
-   return new Trie(wordList, actions);
-}
-
-exports.default = BuildTrie;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 module.exports = {
    "Weird Science": {
       img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BNTE2MzkxNzExM15BMl5BanBnXkFtZTgwNzIwODQxMTE@._V1_UX182_CR0,0,182,268_AL_.jpg',
@@ -1147,7 +1034,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1156,7 +1043,7 @@ module.exports = {
 module.exports = ["The Breakfast Club", "Real Genius", "Sixteen Candles", "Weird Science", "Pretty in Pink", "Back to the Future", "Back to the Future Part II", "Star Wars: Episode V - The Empire Strikes Back", "Star Wars: Episode VI - Return of the Jedi", "Star Trek II: The Wrath of Khan", "Star Trek IV: The Voyage Home", "E.T. the Extra-Terrestrial", "Dirty Dancing", "Platoon", "The Princess Bride", "Raiders of the Lost Ark", "Indiana Jones and the Temple of Doom", "Indiana Jones and the Last Crusade", "The Terminator", "Who Framed Roger Rabbit", "When Harry Met Sally...", "Labyrinth", "Legend", "Bill & Ted's Excellent Adventure", "Top Gun", "Footloose", "Desperately Seeking Susan", "Poltergeist", "Poltergeist II: The Other Side", "Flashdance", "Ghostbusters", "Ghostbusters II", "Gremlins", "Superman II", "Splash", "Some Kind of Wonderful", "The Legend of Billie Jean", "Risky Business", "Working Girl", "Roxanne", "Ruthless People", "The Lost Boys", "Adventures in Babysitting", "Beetlejuice", "St. Elmo's Fire", "All the Right Moves", "Mannequin", "The Karate Kid", "The Karate Kid Part II", "Weekend at Bernie's", "The Untouchables", "Die Hard", "Raising Arizona", "The Last Emperor", "A Christmas Story", "Terms of Endearment", "The Little Mermaid", "The Fox and the Hound", "Glory", "A Fish Called Wanda", "Witness", "Field of Dreams", "Moonstruck", "Ferris Bueller's Day Off", "The Road Warrior", "Mad Max Beyond Thunderdome", "Stand by Me", "Above the Law", "The Abyss", "The Accused", "Akira", "An American Tail", "The NeverEnding Story", "The Secret of NIMH", "The Last Unicorn", "An American Werewolf in London", "Anne of Green Gables", "Annie", "The Fly", "The Fly II", "Armed and Dangerous", "Batman", "The Bay Boy", "Steel Magnolias", "Beaches", "Benji the Hunted", "Beverly Hills Cop", "Beverly Hills Cop II", "Big", "The Big Chill", "The Black Cauldron", "The Black Stallion Returns", "Bloodsport", "The Blue Lagoon", "Blue Thunder", "Born on the Fourth of July", "Big Trouble in Little China", "The 'Burbs", "Caddyshack", "The Care Bears Movie", "The Muppets Take Manhattan", "Firestarter", "Cat's Eye", "Chariots of Fire", "Children of the Corn", "Child's Play", "Cocktail", "Cocoon", "Cocoon: The Return", "*batteries not included", "The Color Purple", "Commando", "Communion", "Crocodile Dundee", "Crocodile Dundee II", "Crusoe", "Cujo", "Dangerous Liaisons", "The Dark Crystal", "D.A.R.Y.L.", "Police Academy", "Police Academy 2: Their First Assignment", "Police Academy 4: Citizens on Patrol", "Police Academy 6: City Under Siege", "Date with an Angel", "Dead Calm", "Deadly Friend", "The Dead Pool", "Dead Ringers", "The Dead Zone", "D.O.A.", "Dominick and Eugene", "Dragnet", "Troop Beverly Hills", "Dream a Little Dream", "Dreamscape", "The Dream Team", "Drugstore Cowboy", "Earth Girls Are Easy", "Enemy Mine", "Escape from New York", "Lethal Weapon", "Lethal Weapon 2", "Explorers", "Fatal Attraction", "Jumpin' Jack Flash", "The Flamingo Kid", "One Crazy Summer", "Stand and Deliver", "Lean on Me", "Flight of the Navigator", "Flowers in the Attic", "Ferris Bueller's Day Off", "Highlander", "48 Hrs.", "Frantic", "From the Hip", "F/X", "Blade Runner", "Raiders of the Lost Ark", "Gleaming the Cube", "Heathers", "The Golden Child", "Good Morning, Vietnam", "Ghostbusters", "Gremlins", "The Great Outdoors", "Planes, Trains & Automobiles", "Throw Momma from the Train", "Greystoke: The Legend of Tarzan, Lord of the Apes", "Altered States", "The Rescue", "Hannah and Her Sisters", "Harry and the Hendersons", "Heavy Metal", "Her Alibi", "Hiding Out", "Honey, I Shrunk the Kids", "Hoosiers", "The Wizard", "The Name of the Rose", "The Journey of Natty Gann", "Twins", "Kickboxer", "K-9", "La Bamba", "Ladyhawke", "Lady in White", "The Land Before Time", "The Last Starfighter", "Legal Eagles", "Less Than Zero", "Little Shop of Horrors", "Look Who's Talking", "Lucas", "Major League", "The Man from Snowy River", "Return to Snowy River", "The Manhattan Project", "Married to the Mob", "Mask", "Maximum Overdrive", "Midnight Run", "Mississippi Burning", "The Money Pit", "Monkey Shines", "Moscow on the Hudson", "Moving", "Music Box", "My Science Project", "My Stepmother Is an Alien", "Mystic Pizza", "The Naked Gun: From the Files of Police Squad!", "National Lampoon's Vacation", "National Lampoon's European Vacation", "National Lampoon's Christmas Vacation", "Never Cry Wolf", "Next of Kin", "9½ Weeks", "The Big Easy", "9 to 5", "The Outsiders", "Rumble Fish", "Overboard", "Peggy Sue Got Married", "Phar Lap", "Pet Sematary", "The Philadelphia Experiment", "Pink Floyd: The Wall", "Predator", "The Presidio", "Private Benjamin", "Project X", "Quest for Fire", "Raging Bull", "Rain Man", "Red Dawn", "Red Heat", "Renegades", "Aliens", "Robocop", "Revenge of the Nerds", "Revenge of the Nerds II: Nerds in Paradise", "River's Edge", "Rock & Rule", "Romancing the Stone", "The Jewel of the Nile", "The Running Man", "Running on Empty", "Little Nikita", "Russkies", "Say Anything...", "Scanners", "Scrooged", "The Serpent and the Rainbow", "The Seventh Sign", "Short Circuit", "Sid and Nancy"];
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1171,6 +1058,214 @@ var AppState = {
 };
 
 exports.default = AppState;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports =
+/******/function (modules) {
+   // webpackBootstrap
+   /******/ // The module cache
+   /******/var installedModules = {};
+   /******/
+   /******/ // The require function
+   /******/function __webpack_require__(moduleId) {
+      /******/
+      /******/ // Check if module is in cache
+      /******/if (installedModules[moduleId]) {
+         /******/return installedModules[moduleId].exports;
+         /******/
+      }
+      /******/ // Create a new module (and put it into the cache)
+      /******/var module = installedModules[moduleId] = {
+         /******/i: moduleId,
+         /******/l: false,
+         /******/exports: {}
+         /******/ };
+      /******/
+      /******/ // Execute the module function
+      /******/modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+      /******/
+      /******/ // Flag the module as loaded
+      /******/module.l = true;
+      /******/
+      /******/ // Return the exports of the module
+      /******/return module.exports;
+      /******/
+   }
+   /******/
+   /******/
+   /******/ // expose the modules object (__webpack_modules__)
+   /******/__webpack_require__.m = modules;
+   /******/
+   /******/ // expose the module cache
+   /******/__webpack_require__.c = installedModules;
+   /******/
+   /******/ // identity function for calling harmony imports with the correct context
+   /******/__webpack_require__.i = function (value) {
+      return value;
+   };
+   /******/
+   /******/ // define getter function for harmony exports
+   /******/__webpack_require__.d = function (exports, name, getter) {
+      /******/if (!__webpack_require__.o(exports, name)) {
+         /******/Object.defineProperty(exports, name, {
+            /******/configurable: false,
+            /******/enumerable: true,
+            /******/get: getter
+            /******/ });
+         /******/
+      }
+      /******/
+   };
+   /******/
+   /******/ // getDefaultExport function for compatibility with non-harmony modules
+   /******/__webpack_require__.n = function (module) {
+      /******/var getter = module && module.__esModule ?
+      /******/function getDefault() {
+         return module['default'];
+      } :
+      /******/function getModuleExports() {
+         return module;
+      };
+      /******/__webpack_require__.d(getter, 'a', getter);
+      /******/return getter;
+      /******/
+   };
+   /******/
+   /******/ // Object.prototype.hasOwnProperty.call
+   /******/__webpack_require__.o = function (object, property) {
+      return Object.prototype.hasOwnProperty.call(object, property);
+   };
+   /******/
+   /******/ // __webpack_public_path__
+   /******/__webpack_require__.p = "";
+   /******/
+   /******/ // Load entry module and return exports
+   /******/return __webpack_require__(__webpack_require__.s = 0);
+   /******/
+}(
+/************************************************************************/
+/******/[
+/* 0 */
+/***/function (module, exports, __webpack_require__) {
+
+   "use strict";
+
+   Object.defineProperty(exports, "__esModule", {
+      value: true
+   });
+   function Trie(wordList, actions) {
+      var TrieContext = this;
+      function getAction(word) {
+         return actions[word] ? actions[word] : null;
+      }
+
+      function addCharToTrie(index, word, wordFragment, branch, trie, fragment) {
+         if (index === wordFragment.length) return trie;
+
+         var char = wordFragment[index];
+         var nodeWord = wordFragment.length - 1 === index ? word : null;
+         if (!branch[char]) {
+            branch[char] = {
+               word: nodeWord,
+               fragments: null,
+               action: wordFragment.length - 1 === index ? getAction(word) : null
+            };
+         }
+         if (fragment && nodeWord) {
+            var fragmentArray = branch[char].fragments ? branch[char].fragments : [];
+            branch[char].fragments = fragmentArray.concat(nodeWord);
+         }
+         return addCharToTrie(index + 1, word, wordFragment, branch[char], trie, fragment);
+      }
+
+      function getBranch(charString, trie) {
+         var branch = trie;
+         for (var i = 0; i < charString.length; i++) {
+            branch = branch[charString[i]];
+            if (!branch) return null;
+         }
+         return branch;
+      }
+      TrieContext.words = wordList;
+      TrieContext.actions = actions;
+      TrieContext.foundWordsIndex = {};
+
+      TrieContext.findWords = function (branch, lookupId) {
+         console.log(branch);
+         var list = [];
+         function mineWord(brn) {
+            if (brn.word) {
+               if (!TrieContext.foundWordsIndex[brn.word]) {
+                  list.push(brn.word);
+                  TrieContext.foundWordsIndex[brn.word] = true;
+               }
+               if (list.length === TrieContext.wordLimit) return list;
+            }
+            if (brn.fragments) {
+               list.concat(brn.fragments.filter(function (txt) {
+                  return !TrieContext.foundWordsIndex[txt];
+               }));
+            }
+            for (var key in brn) {
+               if (typeof brn[key] !== 'string' && brn[key] !== null && TrieContext.currentLoopup === lookupId) {
+                  mineWord(brn[key]);
+               }
+            }
+            return list;
+         }
+
+         return mineWord(branch);
+      };
+      TrieContext.getWordList = function (charString) {
+         var foundWords = [];
+         TrieContext.foundWordsIndex = {};
+         if (!charString) return foundWords;
+         var branch = getBranch(charString, TrieContext.head);
+         if (!branch) return foundWords;
+         var lookupId = Math.random().toString(36).substring(18);
+         TrieContext.currentLoopup = lookupId;
+         return TrieContext.findWords(branch, lookupId);
+      };
+
+      TrieContext.head = wordList.reduce(function (head, word) {
+         var wordLowerCase = word.toLowerCase();
+         head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
+            word: null,
+            fragments: null,
+            action: null
+         };
+         var wordFragment = wordLowerCase;
+         var headAT = addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head, false);
+         while (wordFragment.length) {
+            wordFragment = wordFragment.split(/\s+/).slice(1).join(' ');
+            if (wordFragment) {
+               headAT[wordFragment[0]] = headAT[wordFragment[0]] ? headAT[wordFragment[0]] : { word: null, fragments: null, action: null };
+               headAT = addCharToTrie(1, word, wordFragment, headAT[wordFragment[0]], headAT, true);
+            }
+         }
+         return headAT;
+      }, {});
+      TrieContext.lookup = function (letters) {
+         return TrieContext.getWordList(letters.toLowerCase());
+      };
+   }
+
+   function BuildTrie(wordList) {
+      var actions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      return new Trie(wordList, actions);
+   }
+
+   exports.default = BuildTrie;
+
+   /***/
+}]);
 
 /***/ }),
 /* 9 */

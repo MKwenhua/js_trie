@@ -1,5 +1,5 @@
 import EX from 'reactalike'
-import BuildTrie from 'src/trie';
+import BuildTrie from 'buildtrie';
 import ListItem from 'component/list_item'
 import AppState from '../state/appstate'
 const WordList  = require('src/word_list');
