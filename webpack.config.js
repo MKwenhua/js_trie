@@ -4,14 +4,9 @@ const path = require('path');
 
 module.exports = {
   devtool: debug ? "inline-sourcemap" : false,
-  entry: "./demos/autocomplete/main.js",
+  entry: "./src/trie.js",
   resolve: {
-   extensions: ['.js', '.jsx'],
-   alias: {
-     src: path.resolve( __dirname, 'demos/autocomplete/src'),
-     component:  path.resolve( __dirname, 'demos/autocomplete/components'),
-     container:  path.resolve( __dirname, 'demos/autocomplete/containers')
-   }
+   extensions: ['.js', '.jsx']
  },
   module: {
     loaders: [
@@ -20,17 +15,14 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         query: {
-      presets: ['es2015', 'stage-0'],
-      plugins: [
-        ['transform-react-jsx', {
-          'pragma': 'EX.node'
-        }]
-      ]
+      presets: ['es2015', 'stage-0']
     },
       }
     ]
   },
   output: {
-    filename: "./demos/autocomplete/dist/bundle.js"
+    filename: "./dist/buildtrie.js",
+    libraryTarget: 'commonjs-module',
+    library: 'action-autocomplete'
   }
 };
