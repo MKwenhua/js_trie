@@ -1,6 +1,6 @@
 {
   "name": "action-autocomplete",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A few Javascript trie data structures for autocomplete and things",
   "main": "eighties_movies_list.js",
   "scripts": {
