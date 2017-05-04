@@ -29,3 +29,9 @@
 	color: #1E90FF;
 	cursor: pointer;
 }
+
+.action-list-item {
+	height: 60px;
+	padding:5px;
+	background: rgba(0, 191, 255, 0.5);
+}

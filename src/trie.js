@@ -42,7 +42,7 @@ function Trie(wordList, actions) {
       function mineWord(brn) {
          if (brn.word) {
             if (!TrieContext.foundWordsIndex[brn.word]) {
-              list.push(brn.word);
+              list.push(brn.action ? brn.action : brn.word);
               TrieContext.foundWordsIndex[brn.word] = true;
             }
             if (list.length === TrieContext.wordLimit) return list;
