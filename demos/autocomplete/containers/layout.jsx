@@ -35,7 +35,7 @@ const Layout = {
       if (typeof itm === 'string') {
         let data = {suggestion: itm, typed: typed, clickAction: logAction(itm)}
         return <ListItem ex_data={data}/>
-      } 
+      }
       return <ResultAction ex_data={itm}/>
     })
     return (

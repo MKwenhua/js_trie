@@ -1,8 +1,8 @@
 {
   "name": "action-autocomplete",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "A few Javascript trie data structures for autocomplete and things",
-  "main": "eighties_movies_list.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --progress --colors",
