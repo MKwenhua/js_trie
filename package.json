@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/MKwenhua/js_trie#readme",
   "dependencies": {
+  },
+  "devDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-plugin-transform-react-jsx": "^6.23.0",
@@ -27,8 +30,5 @@
     "babel-preset-stage-0": "^6.24.1",
     "reactalike": "^1.5.2",
     "webpack": "^2.4.1"
-  },
-  "devDependencies": {
-    "babel-plugin-transform-react-jsx": "^6.24.1"
   }
 }

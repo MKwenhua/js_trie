@@ -1295,11 +1295,7 @@ module.exports =
          function mineWord(brn) {
             if (brn.word) {
                if (!TrieContext.foundWordsIndex[brn.word]) {
-<<<<<<< HEAD
-                  list.push(brn.action ? brn.action : brn.word);
-=======
                   list.push(brn.action || brn.word);
->>>>>>> 2ef0008160d0c8f5b68f6df1f36e0cc9b3aa9d65
                   TrieContext.foundWordsIndex[brn.word] = true;
                }
                if (list.length === TrieContext.wordLimit) return list;
@@ -1538,10 +1534,6 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
