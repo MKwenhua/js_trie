@@ -1,3 +1,9 @@
+ function Node(nodeWord, action, fragments = null){
+    this.word = nodeWord;
+    this.action = action;
+    this.fragments = fragments;
+}
+
 function Trie(wordList, actions) {
    const TrieContext = this;
    function getAction(word) {
@@ -10,11 +16,7 @@ function Trie(wordList, actions) {
       let char = wordFragment[index];
       let nodeWord = (wordFragment.length - 1) === index ? word : null
       if (!branch[char]) {
-         branch[char] = {
-            word: nodeWord,
-            fragments: null,
-            action: (wordFragment.length - 1) === index ? getAction(word) : null
-         };
+         branch[char] = new Node(nodeWord, (wordFragment.length - 1) === index ? getAction(word) : null)
       }
       if (fragment && nodeWord) {
         let fragmentArray = branch[char].fragments ? branch[char].fragments : []
@@ -74,11 +76,7 @@ function Trie(wordList, actions) {
 
    TrieContext.head = wordList.reduce((head, word) => {
       var wordLowerCase = word.toLowerCase()
-      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
-         word: null,
-         fragments: null,
-         action: null
-      };
+      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : new Node(null, null, null)
       let wordFragment = wordLowerCase;
       let headAT = addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head, false);
       while (wordFragment.length) {

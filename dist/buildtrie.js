@@ -77,6 +77,14 @@ module.exports =
 Object.defineProperty(exports, "__esModule", {
    value: true
 });
+function Node(nodeWord, action) {
+   var fragments = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+   this.word = nodeWord;
+   this.action = action;
+   this.fragments = fragments;
+}
+
 function Trie(wordList, actions) {
    var TrieContext = this;
    function getAction(word) {
@@ -89,11 +97,7 @@ function Trie(wordList, actions) {
       var char = wordFragment[index];
       var nodeWord = wordFragment.length - 1 === index ? word : null;
       if (!branch[char]) {
-         branch[char] = {
-            word: nodeWord,
-            fragments: null,
-            action: wordFragment.length - 1 === index ? getAction(word) : null
-         };
+         branch[char] = new Node(nodeWord, wordFragment.length - 1 === index ? getAction(word) : null);
       }
       if (fragment && nodeWord) {
          var fragmentArray = branch[char].fragments ? branch[char].fragments : [];
@@ -153,11 +157,7 @@ function Trie(wordList, actions) {
 
    TrieContext.head = wordList.reduce(function (head, word) {
       var wordLowerCase = word.toLowerCase();
-      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : {
-         word: null,
-         fragments: null,
-         action: null
-      };
+      head[wordLowerCase[0]] = head[wordLowerCase[0]] ? head[wordLowerCase[0]] : new Node(null, null, null);
       var wordFragment = wordLowerCase;
       var headAT = addCharToTrie(1, word, wordLowerCase, head[wordLowerCase[0]], head, false);
       while (wordFragment.length) {
