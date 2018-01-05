@@ -1,5 +1,10 @@
+body {
+  background: #4682b4;
+  color: #3c4859;
+}
+
 #imaginary_container{
-    margin-top:20%; /* Don't copy this */
+    margin-top: 20%;
 }
 .stylish-input-group .input-group-addon{
     background: white !important;
@@ -19,10 +24,12 @@
 	padding: 0;
 }
 #search_list li {
-	padding: 4px;
-	border-radius: 4px;
-	border: 1px solid #666;
+	padding: 1px 8px;
+  border: 1px solid rgba(0,0,0,.09);
+  border-radius: 3px;
+  background: #fff;
 	cursor: pointer;
+  margin-bottom: 3px;
 }
 
 .has-action {
@@ -32,6 +39,19 @@
 
 .action-list-item {
 	height: 60px;
-	padding:5px;
-	background: rgba(0, 191, 255, 0.5);
+  border: 1px solid rgba(0,0,0,.09);
+  border-radius: 3px;
+  background: aliceblue;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  margin-bottom: 3px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.action-list-item .col-xs-1 {
+  padding: 0;
+}
+.action-list-item h4 {
+  margin-top: 6px;
+  margin-bottom: 6px;
 }

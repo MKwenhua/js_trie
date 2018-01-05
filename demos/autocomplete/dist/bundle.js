@@ -905,7 +905,7 @@ exports.default = EventList;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _reactalike = __webpack_require__(0);
@@ -935,70 +935,70 @@ var WordActions = __webpack_require__(6);
 var Autocomplete = (0, _buildtrie2.default)(WordList, WordActions);
 
 var logAction = function logAction(word) {
-  return function () {
-
-    console.log('WordActions[word]', word, WordActions[word]);
-  };
+    return function () {
+        console.log('WordActions[word]', word, WordActions[word]);
+    };
 };
+
 var searchType = function searchType(e, elem, otherNode) {
-  var typed = elem.value.toLowerCase().trim();
-  var sugg = Autocomplete.lookup(typed);
-  console.log('sugg', sugg);
-  _reactalike2.default.SetState({
-    suggestions: sugg,
-    typed: typed
-  });
+    var typed = elem.value.toLowerCase().trim();
+    var sugg = Autocomplete.lookup(typed);
+    console.log('sugg', sugg);
+    _reactalike2.default.SetState({
+        suggestions: sugg,
+        typed: typed
+    });
 };
 
 var Layout = {
-  state: _appstate2.default,
-  render: function render() {
-    var _Layout$state = Layout.state,
-        suggestions = _Layout$state.suggestions,
-        typed = _Layout$state.typed;
+    state: _appstate2.default,
+    render: function render() {
+        var _Layout$state = Layout.state,
+            suggestions = _Layout$state.suggestions,
+            typed = _Layout$state.typed;
 
 
-    var movieSuggestions = suggestions.map(function (itm) {
-      if (typeof itm === 'string') {
-        var data = { suggestion: itm, typed: typed, clickAction: logAction(itm) };
-        return _reactalike2.default.node(_list_item2.default, { ex_data: data });
-      }
-      return _reactalike2.default.node(_result_action2.default, { ex_data: itm });
-    });
-    return _reactalike2.default.node(
-      'div',
-      { 'class': 'row' },
-      _reactalike2.default.node(
-        'div',
-        { onClick: function onClick() {
-            console.log('clicked this!');
-          }, 'class': 'col-sm-6 col-sm-offset-3' },
-        _reactalike2.default.node(
-          'div',
-          { id: 'imaginary_container' },
-          _reactalike2.default.node(
+        var movieSuggestions = suggestions.map(function (itm) {
+            if (typeof itm === 'string') {
+                var data = { suggestion: itm, typed: typed, clickAction: logAction(itm) };
+                return _reactalike2.default.node(_list_item2.default, { ex_data: data });
+            }
+            return _reactalike2.default.node(_result_action2.default, { ex_data: itm });
+        });
+        return _reactalike2.default.node(
             'div',
-            { 'class': 'input-group stylish-input-group' },
-            _reactalike2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
+            { 'class': 'row' },
             _reactalike2.default.node(
-              'span',
-              { 'class': 'input-group-addon' },
-              _reactalike2.default.node(
-                'button',
-                { type: 'submit' },
-                _reactalike2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
-              )
+                'div',
+                { onClick: function onClick() {
+                        console.log('clicked this!');
+                    }, 'class': 'col-sm-6 col-sm-offset-3' },
+                _reactalike2.default.node(
+                    'div',
+                    { id: 'imaginary_container' },
+                    _reactalike2.default.node(
+                        'div',
+                        { 'class': 'input-group stylish-input-group' },
+                        _reactalike2.default.node('input', { onKeyUp: searchType, type: 'text', 'class': 'form-control', placeholder: 'Search' }),
+                        _reactalike2.default.node(
+                            'span',
+                            { 'class': 'input-group-addon' },
+                            _reactalike2.default.node(
+                                'button',
+                                { type: 'submit' },
+                                _reactalike2.default.node('span', { 'class': 'glyphicon glyphicon-search' })
+                            )
+                        )
+                    )
+                ),
+                _reactalike2.default.node(
+                    'ul',
+                    { id: 'search_list' },
+                    movieSuggestions
+                )
             )
-          )
-        ),
-        _reactalike2.default.node(
-          'ul',
-          { id: 'search_list' },
-          movieSuggestions
-        )
-      )
-    );
-  }
+        );
+    }
 };
 
 exports.default = Layout;
@@ -1082,7 +1082,7 @@ exports.default = ListItem;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+   value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1100,53 +1100,53 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var ResultAction = function (_EX$Component) {
-  _inherits(ResultAction, _EX$Component);
+   _inherits(ResultAction, _EX$Component);
 
-  function ResultAction() {
-    _classCallCheck(this, ResultAction);
+   function ResultAction() {
+      _classCallCheck(this, ResultAction);
 
-    return _possibleConstructorReturn(this, (ResultAction.__proto__ || Object.getPrototypeOf(ResultAction)).apply(this, arguments));
-  }
+      return _possibleConstructorReturn(this, (ResultAction.__proto__ || Object.getPrototypeOf(ResultAction)).apply(this, arguments));
+   }
 
-  _createClass(ResultAction, [{
-    key: "render",
-    value: function render() {
-      var _props$ex_data = this.props.ex_data,
-          word = _props$ex_data.word,
-          img_src = _props$ex_data.img_src,
-          imdb = _props$ex_data.imdb;
+   _createClass(ResultAction, [{
+      key: 'render',
+      value: function render() {
+         var _props$ex_data = this.props.ex_data,
+             word = _props$ex_data.word,
+             img_src = _props$ex_data.img_src,
+             imdb = _props$ex_data.imdb;
 
-      return _reactalike2.default.node(
-        "div",
-        { "class": "action-list-item" },
-        _reactalike2.default.node(
-          "div",
-          { "class": "col-xs-4" },
-          _reactalike2.default.node("img", { src: img_src, height: "50" })
-        ),
-        _reactalike2.default.node(
-          "div",
-          { "class": "col-xs-8" },
-          _reactalike2.default.node(
-            "b",
-            null,
-            word
-          ),
-          _reactalike2.default.node(
-            "p",
-            null,
+         return _reactalike2.default.node(
+            'div',
+            { 'class': 'action-list-item' },
             _reactalike2.default.node(
-              "a",
-              { href: imdb },
-              "IMDB Link"
+               'div',
+               { 'class': 'col-xs-1' },
+               _reactalike2.default.node('img', { src: img_src, height: '60' })
+            ),
+            _reactalike2.default.node(
+               'div',
+               { 'class': 'col-xs-10' },
+               _reactalike2.default.node(
+                  'h4',
+                  null,
+                  word
+               ),
+               _reactalike2.default.node(
+                  'p',
+                  null,
+                  _reactalike2.default.node(
+                     'a',
+                     { href: imdb },
+                     'IMDB Link'
+                  )
+               )
             )
-          )
-        )
-      );
-    }
-  }]);
+         );
+      }
+   }]);
 
-  return ResultAction;
+   return ResultAction;
 }(_reactalike2.default.Component);
 
 exports.default = ResultAction;
@@ -1250,7 +1250,7 @@ module.exports = {
    },
    "Ferris Bueller's Day Off": {
       word: 'Ferris Bueller\'s Day Off',
-      img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BZDVjN2FkYTQtNTBlOC00MjM5LTgzMWEtZWRlNGUyYmNiOTFiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg',
+      img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BMDA0NjZhZWUtNmI2NC00MmFjLTgwZDYtYzVjZmNhMDVmOTBkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg',
       imdb: 'http://www.imdb.com/title/tt0087363'
    },
    "Akira": {
@@ -1507,7 +1507,8 @@ module.exports =
    exports.default = BuildTrie;
 
    /***/
-}]);
+}]
+/******/);
 
 /***/ }),
 /* 10 */
@@ -1683,6 +1684,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');

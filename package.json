@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/MKwenhua/js_trie#readme",
   "dependencies": {
-    "babel-loader": "^7.0.0"
+    "babel-loader": "^7.0.0",
+    "reactalike": "^1.5.5"
   },
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.23.0",
