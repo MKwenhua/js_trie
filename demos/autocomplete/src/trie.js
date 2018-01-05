@@ -95,7 +95,7 @@ function Trie(wordList, actions) {
    }
 }
 
-function BuildTrie(wordList, actions) {
+function BuildTrie(wordList, actions = {}) {
    return new Trie(wordList, actions);
 }
 

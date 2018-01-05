@@ -1,6 +1,6 @@
 const AppState = {
- suggestions: [],
- typed: ""
+  suggestions: [],
+  typed: ""
 }
 
 export default AppState;

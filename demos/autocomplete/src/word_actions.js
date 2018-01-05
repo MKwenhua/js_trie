@@ -71,7 +71,7 @@ module.exports = {
    },
    "Ferris Bueller's Day Off":  {
       word: 'Ferris Bueller\'s Day Off',
-      img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BZDVjN2FkYTQtNTBlOC00MjM5LTgzMWEtZWRlNGUyYmNiOTFiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg',
+      img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BMDA0NjZhZWUtNmI2NC00MmFjLTgwZDYtYzVjZmNhMDVmOTBkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg',
       imdb: 'http://www.imdb.com/title/tt0087363'
    },
    "Akira":  {
