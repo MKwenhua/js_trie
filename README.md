@@ -24,7 +24,8 @@ const WordsForAutoComplete = [
    "Mad Max Beyond Thunderdome"
 ]
 
-//KeyWordActions are so you can match an Object to returned if the text has been matched. This is great for embedding extra data with each result. 
+//KeyWordActions are so you can set an object to be returned if the associated text has been matched.
+//This is great for embedding extra data with each result. 
 
 const KeyWordActions = {
 	"Raiders of the Lost Ark":{
@@ -41,8 +42,8 @@ const KeyWordActions = {
 
 const AutoComplete = BuildTrie(WordsForAutoComplete, KeyWordActions);
 
-//To look up a string of text use lookup, this will return an array of matching text as strings and objects if you happen to include some Key Word Actions.
-
+//To look up a string of text use lookup, this will return an array of matching text as strings 
+//and objects if you happen to include some Key Word Actions.
 let sugg = Autocomplete.lookup(typed)
 
 ```
