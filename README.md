@@ -44,7 +44,10 @@ const AutoComplete = BuildTrie(WordsForAutoComplete, KeyWordActions);
 
 //To look up a string of text use lookup, this will return an array of matching text as strings 
 //and objects if you happen to include some Key Word Actions.
-let sugg = Autocomplete.lookup(typed)
+
+let matches = Autocomplete.lookup(typed)
+
+
 
 ```
 
