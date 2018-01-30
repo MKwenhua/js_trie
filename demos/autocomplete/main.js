@@ -1,5 +1,8 @@
-import EX from 'reactalike'
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Layout from 'container/layout'
 
-EX.mountAppToNode(
-  Layout , document.getElementById('root'));
+ReactDOM.render(
+  <Layout />,
+  document.getElementById('root')
+);
