@@ -4,6 +4,9 @@ A Javascript Trie data structures for autocomplete.
 
 ![](/autocomplete_trie.gif)
 
+#### Setting Actions As Higher Order Components Example:
+
+![](/higher-order-component-example.gif) 
 
 ## How To Use
 
@@ -25,10 +28,10 @@ const WordsForAutoComplete = [
 ]
 
 //KeyWordActions are so you can set an object to be returned if the associated text has been matched.
-//This is great for embedding extra data with each result. 
+//This is great for embedding extra data with each result.
 
 const KeyWordActions = {
-	"Raiders of the Lost Ark":{
+   "Raiders of the Lost Ark":{
       word: 'Raiders of the Lost Ark',
       img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0ODEzMTc1Nl5BMl5BanBnXkFtZTcwODM2MjAxNA@@._V1_SY1000_CR0,0,664,1000_AL_.jpg',
       imdb: 'http://www.imdb.com/title/tt0082971'
@@ -42,7 +45,7 @@ const KeyWordActions = {
 
 const AutoComplete = BuildTrie(WordsForAutoComplete, KeyWordActions);
 
-//To look up a string of text use lookup, this will return an array of matching text as strings 
+//To look up a string of text use lookup, this will return an array of matching text as strings
 //and objects if you happen to include some Key Word Actions.
 
 let matches = Autocomplete.lookup(typed)
@@ -51,6 +54,4 @@ let matches = Autocomplete.lookup(typed)
 
 ```
 
-**note:** The second parameter `actions` is optional. 
-
-
+**note:** The second parameter `actions` is optional.
