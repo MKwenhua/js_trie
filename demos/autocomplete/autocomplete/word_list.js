@@ -1,4 +1,4 @@
-module.exports = [
+const WordList = [
    "The Breakfast Club",
    "Real Genius",
    "Sixteen Candles",
@@ -258,3 +258,7 @@ module.exports = [
    "Short Circuit",
    "Sid and Nancy"
 ]
+
+export {
+  WordList
+}

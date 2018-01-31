@@ -1,8 +1,10 @@
 const webpack = require('webpack');
+const path = require('path');
 
+console.log('__dirname', __dirname)
 module.exports = {
   entry: [
-    'react-hot-loader/patch',
+    //'react-hot-loader/patch',
     './main.js'
   ],
   module: {
@@ -15,18 +17,23 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx'],
+    alias: {
+      autocomplete: path.resolve( __dirname, 'autocomplete'),
+      component:  path.resolve( __dirname, 'components'),
+      container:  path.resolve( __dirname, 'containers')
+    }
   },
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
     filename: 'bundle.js'
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  devServer: {
-    contentBase: './dist',
-    hot: true
   }
+  // plugins: [
+  //   new webpack.HotModuleReplacementPlugin()
+  // ],
+  // devServer: {
+  //   contentBase: './',
+  //   hot: true
+  // }
 };

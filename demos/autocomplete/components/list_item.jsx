@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 
 class ListItem extends PureComponent {
   render() {
-    const { suggestion, typed, clickAction } = this.props.data
+    const { suggestion, typed } = this.props.data
     const regex = new RegExp('(' + typed + ')', 'gi')
     const matchText = new RegExp(typed, 'i')
     const highlightedText = suggestion.split(regex).map((text, i) => {
@@ -11,7 +11,7 @@ class ListItem extends PureComponent {
       }
       return <span key={i}>{text}</span>
     })
-    return <li onClick={clickAction}>{highlightedText}</li>
+    return <li>{highlightedText}</li>
   }
 }
 

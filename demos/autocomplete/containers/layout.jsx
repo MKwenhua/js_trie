@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react'
-import BuildTrie from 'buildtrie';
 import ListItem from 'component/list_item'
 import ResultAction from 'component/result_action';
-import AppState from '../state/appstate'
-const WordList = require('src/word_list');
-const WordActions = require('src/word_actions');
-const Autocomplete = BuildTrie(WordList, WordActions);
+import {
+  AutoComplete
+} from 'autocomplete';
 
 class Layout extends PureComponent {
   state = {
@@ -14,7 +12,7 @@ class Layout extends PureComponent {
   }
   searchType = e => {
     const typed = e.target.value.toLowerCase().trim();
-    const suggestions = Autocomplete.lookup(typed);
+    const suggestions = AutoComplete.lookup(typed);
     console.log('suggestions', suggestions);
     this.setState({ suggestions, typed });
   }
@@ -25,8 +23,7 @@ class Layout extends PureComponent {
       if (typeof itm === 'string') {
         let data = {
           suggestion: itm,
-          typed: typed,
-          clickAction: logAction(itm)
+          typed: typed
         }
         return <ListItem key={i} data={data}/>
       }
@@ -37,7 +34,7 @@ class Layout extends PureComponent {
         <div className='col-sm-6 col-sm-offset-3'>
           <div id='imaginary_container'>
             <div className='input-group stylish-input-group'>
-              <input onKeyUp={searchType} type='text' className='form-control' placeholder='Search'/>
+              <input onKeyUp={this.searchType} type='text' className='form-control' placeholder='Search'/>
               <span className='input-group-addon'>
                 <button type='submit'>
                   <span className='glyphicon glyphicon-search'></span>
