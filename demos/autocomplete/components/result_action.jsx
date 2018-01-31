@@ -1,14 +1,14 @@
-import EX from 'reactalike'
+import React, { PureComponent } from 'react'
 
-class ResultAction extends EX.Component {
+class ResultAction extends PureComponent {
   render() {
-    const { word, img_src, imdb } = this.props.ex_data
+    const { word, img_src, imdb } = this.props.data
     return (
-      <div class='action-list-item'>
-        <div class='col-xs-1'>
+      <div className='action-list-item'>
+        <div className='col-xs-1'>
           <img src={img_src} height='60'/>
         </div>
-        <div class='col-xs-10'>
+        <div className='col-xs-10'>
           <h4>{word}</h4>
           <p>
             <a href={imdb}>IMDB Link</a>

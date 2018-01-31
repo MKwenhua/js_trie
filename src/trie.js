@@ -1,4 +1,4 @@
- function Node(nodeWord, action, fragments = null){
+function Node(nodeWord, action, fragments = null){
     this.word = nodeWord;
     this.action = action;
     this.fragments = fragments;

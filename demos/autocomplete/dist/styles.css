@@ -1,0 +1,114 @@
+#search_list {
+  position: relative;
+}
+
+.special-offer {
+  position: absolute;
+  width: 100%;
+  border: 2px solid #2ecc71;
+  background: white;
+  height: 90px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  top: -130px;
+  cursor: pointer;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+}
+
+.deal-tag {
+  background: lime;
+  padding: 3px 8px;
+  color: black;
+  border-top-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.ad-info {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+}
+
+.ad-info img {
+  margin-right: 8px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+
+.get-deal-modal {
+  border-radius: 6px;
+  width: 500px;
+  color: #f70;
+  padding: 4px;
+  position: relative;
+  background-color: white;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.get-deal-modal h3 {
+  margin: 0;
+  color: mediumblue;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
+
+.get-deal-modal h4 {
+  margin: 4px;
+}
+
+.get-deal-modal formbox {
+  padding: 10px;
+  color: #333;
+  text-align: left;
+}
+
+.get-deal-modal button {
+  float: right;
+}
+
+/* Close Button */
+
+[class*='close-'] {
+  color: #777;
+  font: 14px/100% arial, sans-serif;
+  position: absolute;
+  right: 5px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fff;
+  top: 5px;
+}
+
+.close-classic:after {
+  content: 'X';
+  /* ANSI X letter */
+}
+
+.close-thin:after {
+  content: '\D7';
+  /* UTF-8 symbol */
+}
+
+.close-thik:after {
+  content: '\2716';
+  /* UTF-8 symbol */
+}

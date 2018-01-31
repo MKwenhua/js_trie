@@ -1,4 +1,4 @@
-module.exports = {
+const WordActions = {
    "Weird Science":{
       word: 'Weird Science',
       img_src: 'http://i.imgur.com/8U9iw9W.jpg',
@@ -94,4 +94,8 @@ module.exports = {
       img_src: 'https://images-na.ssl-images-amazon.com/images/M/MV5BODU1NzM4NTA4Nl5BMl5BanBnXkFtZTgwMTkxMzcxMTE@._V1_UX182_CR0,0,182,268_AL_.jpg',
       imdb: 'http://www.imdb.com/title/tt0088000'
    }
+}
+
+export {
+  WordActions
 }
