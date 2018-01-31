@@ -18944,9 +18944,23 @@ var MovieDiscount = function (_React$PureComponent) {
   _inherits(MovieDiscount, _React$PureComponent);
 
   function MovieDiscount() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, MovieDiscount);
 
-    return _possibleConstructorReturn(this, (MovieDiscount.__proto__ || Object.getPrototypeOf(MovieDiscount)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MovieDiscount.__proto__ || Object.getPrototypeOf(MovieDiscount)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      modalOpen: false
+    }, _this.toggleModal = function (setting) {
+      return function () {
+        return _this.setState({ modalOpen: setting });
+      };
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(MovieDiscount, [{
@@ -18954,21 +18968,100 @@ var MovieDiscount = function (_React$PureComponent) {
     value: function render() {
       var _props = this.props,
           setState = _props.setState,
+          poster = _props.poster,
           title = _props.title;
+      var modalOpen = this.state.modalOpen;
 
       return _react2.default.createElement(
         'div',
-        { className: 'special-offer' },
+        null,
         _react2.default.createElement(
           'div',
-          null,
+          { onClick: this.toggleModal(true), className: 'special-offer' },
           _react2.default.createElement(
-            'h4',
-            null,
-            title
-          )
+            'div',
+            { className: 'ad-info' },
+            _react2.default.createElement('img', { src: poster, height: '86' }),
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'h4',
+                null,
+                title
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement(
+                  'span',
+                  { className: 'deal-tag' },
+                  '40%'
+                ),
+                ' Off With Coupon'
+              )
+            )
+          ),
+          _react2.default.createElement('img', { height: '70', src: './dist/amc-theatres-logo.png' })
         ),
-        _react2.default.createElement('img', { height: '70', src: './dist/amc-theatres-logo.png' })
+        _react2.default.createElement(
+          'div',
+          { className: modalOpen ? 'overlay' : 'hidden' },
+          _react2.default.createElement(
+            'div',
+            { className: 'get-deal-modal' },
+            _react2.default.createElement(
+              'h3',
+              null,
+              'Go See ' + title + '!'
+            ),
+            _react2.default.createElement(
+              'h4',
+              null,
+              'Fill In Info'
+            ),
+            _react2.default.createElement('a', { onClick: this.toggleModal(false), className: 'close-thik' }),
+            _react2.default.createElement(
+              'formbox',
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'form-group' },
+                _react2.default.createElement(
+                  'div',
+                  { 'class': 'form-group' },
+                  _react2.default.createElement(
+                    'label',
+                    { htmlFor: 'name' },
+                    'Password:'
+                  ),
+                  _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Enter Name', name: 'name' })
+                ),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'email' },
+                  'Email:'
+                ),
+                _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Enter email', name: 'email' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'checkbox' },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  _react2.default.createElement('input', { type: 'checkbox', name: 'remember' }),
+                  'Remember me'
+                )
+              ),
+              _react2.default.createElement(
+                'button',
+                { type: 'submit', onClick: this.toggleModal(false), className: 'btn btn-info' },
+                'Submit'
+              )
+            )
+          )
+        )
       );
     }
   }]);
@@ -18977,21 +19070,21 @@ var MovieDiscount = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 var SpecialOffers = {
-  'Jumanji: Welcome to the Jungle': function JumanjiWelcomeToTheJungle(_ref) {
-    var setState = _ref.setState;
-    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Jumanji: Welcome to the Jungle' });
-  },
-  'Maze Runner: The Death Cure': function MazeRunnerTheDeathCure(_ref2) {
+  'Jumanji: Welcome to the Jungle': function JumanjiWelcomeToTheJungle(_ref2) {
     var setState = _ref2.setState;
-    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Maze Runner: The Death Cure' });
+    return _react2.default.createElement(MovieDiscount, { setState: setState, poster: './dist/Jumanji.jpg', title: 'Jumanji: Welcome to the Jungle' });
   },
-  'Star Wars: The Last Jedi': function StarWarsTheLastJedi(_ref3) {
+  'Maze Runner: The Death Cure': function MazeRunnerTheDeathCure(_ref3) {
     var setState = _ref3.setState;
-    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Star Wars: The Last Jedi' });
+    return _react2.default.createElement(MovieDiscount, { setState: setState, poster: './dist/mazerunner.jpg', title: 'Maze Runner: The Death Cure' });
   },
-  'Blade Runner 2049': function BladeRunner2049(_ref4) {
+  'Star Wars: The Last Jedi': function StarWarsTheLastJedi(_ref4) {
     var setState = _ref4.setState;
-    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Blade Runner 2049' });
+    return _react2.default.createElement(MovieDiscount, { setState: setState, poster: './dist/jar-jar.jpg', title: 'Star Wars: The Last Jedi' });
+  },
+  'Blade Runner 2049': function BladeRunner2049(_ref5) {
+    var setState = _ref5.setState;
+    return _react2.default.createElement(MovieDiscount, { setState: setState, poster: './dist/blade-runner.jpg', title: 'Blade Runner 2049' });
   }
 };
 
