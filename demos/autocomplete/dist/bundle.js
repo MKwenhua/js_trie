@@ -18487,7 +18487,9 @@ var _result_action = __webpack_require__(31);
 
 var _result_action2 = _interopRequireDefault(_result_action);
 
-var _autocomplete = __webpack_require__(32);
+__webpack_require__(32);
+
+var _autocomplete = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18525,12 +18527,21 @@ var Layout = function (_PureComponent) {
   _createClass(Layout, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _state = this.state,
           suggestions = _state.suggestions,
           typed = _state.typed;
 
 
       var movieSuggestions = suggestions.map(function (itm, i) {
+        if (typeof itm === 'function') {
+          return _react2.default.createElement(
+            'div',
+            { key: i },
+            itm(_this2)
+          );
+        }
         if (typeof itm === 'string') {
           var data = {
             suggestion: itm,
@@ -18730,6 +18741,12 @@ exports.default = ResultAction;
 
 /***/ }),
 /* 32 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18740,22 +18757,26 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.AutoComplete = undefined;
 
-var _actionAutocomplete = __webpack_require__(33);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _actionAutocomplete = __webpack_require__(34);
 
 var _actionAutocomplete2 = _interopRequireDefault(_actionAutocomplete);
 
-var _word_list = __webpack_require__(34);
+var _word_list = __webpack_require__(35);
 
-var _word_actions = __webpack_require__(35);
+var _word_actions = __webpack_require__(36);
+
+var _special_offers = __webpack_require__(37);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var AutoComplete = (0, _actionAutocomplete2.default)(_word_list.WordList, _word_actions.WordActions);
+var AutoComplete = (0, _actionAutocomplete2.default)(_word_list.WordList, _extends({}, _word_actions.WordActions, _special_offers.SpecialOffers));
 
 exports.AutoComplete = AutoComplete;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18770,7 +18791,7 @@ if (process.env.NODE_ENV === 'production') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18779,12 +18800,12 @@ if (process.env.NODE_ENV === 'production') {
 Object.defineProperty(exports, "__esModule", {
    value: true
 });
-var WordList = ["The Breakfast Club", "Real Genius", "Sixteen Candles", "Weird Science", "Pretty in Pink", "Back to the Future", "Back to the Future Part II", "Star Wars: Episode V - The Empire Strikes Back", "Star Wars: Episode VI - Return of the Jedi", "Star Trek II: The Wrath of Khan", "Star Trek IV: The Voyage Home", "E.T. the Extra-Terrestrial", "Dirty Dancing", "Platoon", "The Princess Bride", "Raiders of the Lost Ark", "Indiana Jones and the Temple of Doom", "Indiana Jones and the Last Crusade", "The Terminator", "Who Framed Roger Rabbit", "When Harry Met Sally...", "Labyrinth", "Legend", "Bill & Ted's Excellent Adventure", "Top Gun", "Footloose", "Desperately Seeking Susan", "Poltergeist", "Poltergeist II: The Other Side", "Flashdance", "Ghostbusters", "Ghostbusters II", "Gremlins", "Superman II", "Splash", "Some Kind of Wonderful", "The Legend of Billie Jean", "Risky Business", "Working Girl", "Roxanne", "Ruthless People", "The Lost Boys", "Adventures in Babysitting", "Beetlejuice", "St. Elmo's Fire", "All the Right Moves", "Mannequin", "The Karate Kid", "The Karate Kid Part II", "Weekend at Bernie's", "The Untouchables", "Die Hard", "Raising Arizona", "The Last Emperor", "A Christmas Story", "Terms of Endearment", "The Little Mermaid", "The Fox and the Hound", "Glory", "A Fish Called Wanda", "Witness", "Field of Dreams", "Moonstruck", "Ferris Bueller's Day Off", "The Road Warrior", "Mad Max Beyond Thunderdome", "Stand by Me", "Above the Law", "The Abyss", "The Accused", "Akira", "An American Tail", "The NeverEnding Story", "The Secret of NIMH", "The Last Unicorn", "An American Werewolf in London", "Anne of Green Gables", "Annie", "The Fly", "The Fly II", "Armed and Dangerous", "Batman", "The Bay Boy", "Steel Magnolias", "Beaches", "Benji the Hunted", "Beverly Hills Cop", "Beverly Hills Cop II", "Big", "The Big Chill", "The Black Cauldron", "The Black Stallion Returns", "Bloodsport", "The Blue Lagoon", "Blue Thunder", "Born on the Fourth of July", "Big Trouble in Little China", "The 'Burbs", "Caddyshack", "The Care Bears Movie", "The Muppets Take Manhattan", "Firestarter", "Cat's Eye", "Chariots of Fire", "Children of the Corn", "Child's Play", "Cocktail", "Cocoon", "Cocoon: The Return", "*batteries not included", "The Color Purple", "Commando", "Communion", "Crocodile Dundee", "Crocodile Dundee II", "Crusoe", "Cujo", "Dangerous Liaisons", "The Dark Crystal", "D.A.R.Y.L.", "Police Academy", "Police Academy 2: Their First Assignment", "Police Academy 4: Citizens on Patrol", "Police Academy 6: City Under Siege", "Date with an Angel", "Dead Calm", "Deadly Friend", "The Dead Pool", "Dead Ringers", "The Dead Zone", "D.O.A.", "Dominick and Eugene", "Dragnet", "Troop Beverly Hills", "Dream a Little Dream", "Dreamscape", "The Dream Team", "Drugstore Cowboy", "Earth Girls Are Easy", "Enemy Mine", "Escape from New York", "Lethal Weapon", "Lethal Weapon 2", "Explorers", "Fatal Attraction", "Jumpin' Jack Flash", "The Flamingo Kid", "One Crazy Summer", "Stand and Deliver", "Lean on Me", "Flight of the Navigator", "Flowers in the Attic", "Ferris Bueller's Day Off", "Highlander", "48 Hrs.", "Frantic", "From the Hip", "F/X", "Blade Runner", "Raiders of the Lost Ark", "Gleaming the Cube", "Heathers", "The Golden Child", "Good Morning, Vietnam", "Ghostbusters", "Gremlins", "The Great Outdoors", "Planes, Trains & Automobiles", "Throw Momma from the Train", "Greystoke: The Legend of Tarzan, Lord of the Apes", "Altered States", "The Rescue", "Hannah and Her Sisters", "Harry and the Hendersons", "Heavy Metal", "Her Alibi", "Hiding Out", "Honey, I Shrunk the Kids", "Hoosiers", "The Wizard", "The Name of the Rose", "The Journey of Natty Gann", "Twins", "Kickboxer", "K-9", "La Bamba", "Ladyhawke", "Lady in White", "The Land Before Time", "The Last Starfighter", "Legal Eagles", "Less Than Zero", "Little Shop of Horrors", "Look Who's Talking", "Lucas", "Major League", "The Man from Snowy River", "Return to Snowy River", "The Manhattan Project", "Married to the Mob", "Mask", "Maximum Overdrive", "Midnight Run", "Mississippi Burning", "The Money Pit", "Monkey Shines", "Moscow on the Hudson", "Moving", "Music Box", "My Science Project", "My Stepmother Is an Alien", "Mystic Pizza", "The Naked Gun: From the Files of Police Squad!", "National Lampoon's Vacation", "National Lampoon's European Vacation", "National Lampoon's Christmas Vacation", "Never Cry Wolf", "Next of Kin", "9½ Weeks", "The Big Easy", "9 to 5", "The Outsiders", "Rumble Fish", "Overboard", "Peggy Sue Got Married", "Phar Lap", "Pet Sematary", "The Philadelphia Experiment", "Pink Floyd: The Wall", "Predator", "The Presidio", "Private Benjamin", "Project X", "Quest for Fire", "Raging Bull", "Rain Man", "Red Dawn", "Red Heat", "Renegades", "Aliens", "Robocop", "Revenge of the Nerds", "Revenge of the Nerds II: Nerds in Paradise", "River's Edge", "Rock & Rule", "Romancing the Stone", "The Jewel of the Nile", "The Running Man", "Running on Empty", "Little Nikita", "Russkies", "Say Anything...", "Scanners", "Scrooged", "The Serpent and the Rainbow", "The Seventh Sign", "Short Circuit", "Sid and Nancy"];
+var WordList = ["The Breakfast Club", "Real Genius", "Sixteen Candles", "Weird Science", "Pretty in Pink", "Back to the Future", "Back to the Future Part II", "Star Wars: Episode V - The Empire Strikes Back", "Star Wars: Episode VI - Return of the Jedi", "Star Trek II: The Wrath of Khan", "Star Trek IV: The Voyage Home", "E.T. the Extra-Terrestrial", "Dirty Dancing", "Platoon", "The Princess Bride", "Raiders of the Lost Ark", "Indiana Jones and the Temple of Doom", "Indiana Jones and the Last Crusade", "The Terminator", "Who Framed Roger Rabbit", "When Harry Met Sally...", "Labyrinth", "Legend", "Bill & Ted's Excellent Adventure", "Top Gun", "Footloose", "Desperately Seeking Susan", "Poltergeist", "Poltergeist II: The Other Side", "Flashdance", "Ghostbusters", "Ghostbusters II", "Gremlins", "Superman II", "Splash", "Some Kind of Wonderful", "The Legend of Billie Jean", "Risky Business", "Working Girl", "Roxanne", "Ruthless People", "The Lost Boys", "Adventures in Babysitting", "Beetlejuice", "St. Elmo's Fire", "All the Right Moves", "Mannequin", "The Karate Kid", "The Karate Kid Part II", "Weekend at Bernie's", "The Untouchables", "Die Hard", "Raising Arizona", "The Last Emperor", "A Christmas Story", "Terms of Endearment", "The Little Mermaid", "The Fox and the Hound", "Glory", "A Fish Called Wanda", "Witness", "Field of Dreams", "Moonstruck", "Ferris Bueller's Day Off", "The Road Warrior", "Mad Max Beyond Thunderdome", "Stand by Me", "Above the Law", "The Abyss", "The Accused", "Akira", "An American Tail", "The NeverEnding Story", "The Secret of NIMH", "The Last Unicorn", "An American Werewolf in London", "Anne of Green Gables", "Annie", "The Fly", "The Fly II", "Armed and Dangerous", "Batman", "The Bay Boy", "Steel Magnolias", "Beaches", "Benji the Hunted", "Beverly Hills Cop", "Beverly Hills Cop II", "Big", "The Big Chill", "The Black Cauldron", "The Black Stallion Returns", "Bloodsport", "The Blue Lagoon", "Blue Thunder", "Born on the Fourth of July", "Big Trouble in Little China", "The 'Burbs", "Caddyshack", "The Care Bears Movie", "The Muppets Take Manhattan", "Firestarter", "Cat's Eye", "Chariots of Fire", "Children of the Corn", "Child's Play", "Cocktail", "Cocoon", "Cocoon: The Return", "*batteries not included", "The Color Purple", "Commando", "Communion", "Crocodile Dundee", "Crocodile Dundee II", "Crusoe", "Cujo", "Dangerous Liaisons", "The Dark Crystal", "D.A.R.Y.L.", "Police Academy", "Police Academy 2: Their First Assignment", "Police Academy 4: Citizens on Patrol", "Police Academy 6: City Under Siege", "Date with an Angel", "Dead Calm", "Deadly Friend", "The Dead Pool", "Dead Ringers", "The Dead Zone", "D.O.A.", "Dominick and Eugene", "Dragnet", "Troop Beverly Hills", "Dream a Little Dream", "Dreamscape", "The Dream Team", "Drugstore Cowboy", "Earth Girls Are Easy", "Enemy Mine", "Escape from New York", "Lethal Weapon", "Lethal Weapon 2", "Explorers", "Fatal Attraction", "Jumpin' Jack Flash", "The Flamingo Kid", "One Crazy Summer", "Stand and Deliver", "Lean on Me", "Flight of the Navigator", "Flowers in the Attic", "Ferris Bueller's Day Off", "Highlander", "48 Hrs.", "Frantic", "From the Hip", "F/X", "Blade Runner", "Raiders of the Lost Ark", "Gleaming the Cube", "Heathers", "The Golden Child", "Good Morning, Vietnam", "Ghostbusters", "Gremlins", "The Great Outdoors", "Planes, Trains & Automobiles", "Throw Momma from the Train", "Greystoke: The Legend of Tarzan, Lord of the Apes", "Altered States", "The Rescue", "Hannah and Her Sisters", "Harry and the Hendersons", "Heavy Metal", "Her Alibi", "Hiding Out", "Honey, I Shrunk the Kids", "Hoosiers", "The Wizard", "The Name of the Rose", "The Journey of Natty Gann", "Twins", "Kickboxer", "K-9", "La Bamba", "Ladyhawke", "Lady in White", "The Land Before Time", "The Last Starfighter", "Legal Eagles", "Less Than Zero", "Little Shop of Horrors", "Look Who's Talking", "Lucas", "Major League", "The Man from Snowy River", "Return to Snowy River", "The Manhattan Project", "Married to the Mob", "Mask", "Maximum Overdrive", "Midnight Run", "Mississippi Burning", "The Money Pit", "Monkey Shines", "Moscow on the Hudson", "Moving", "Music Box", "My Science Project", "My Stepmother Is an Alien", "Mystic Pizza", "The Naked Gun: From the Files of Police Squad!", "National Lampoon's Vacation", "National Lampoon's European Vacation", "National Lampoon's Christmas Vacation", "Never Cry Wolf", "Next of Kin", "9½ Weeks", "The Big Easy", "9 to 5", "The Outsiders", "Rumble Fish", "Overboard", "Peggy Sue Got Married", "Phar Lap", "Pet Sematary", "The Philadelphia Experiment", "Pink Floyd: The Wall", "Predator", "The Presidio", "Private Benjamin", "Project X", "Quest for Fire", "Raging Bull", "Rain Man", "Red Dawn", "Red Heat", "Renegades", "Aliens", "Robocop", "Revenge of the Nerds", "Revenge of the Nerds II: Nerds in Paradise", "River's Edge", "Rock & Rule", "Romancing the Stone", "The Jewel of the Nile", "The Running Man", "Running on Empty", "Little Nikita", "Russkies", "Say Anything...", "Scanners", "Scrooged", "The Serpent and the Rainbow", "The Seventh Sign", "Short Circuit", "Sid and Nancy", 'Jumanji: Welcome to the Jungle', 'Maze Runner: The Death Cure', 'Star Wars: The Last Jedi', 'Blade Runner 2049'];
 
 exports.WordList = WordList;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18892,6 +18913,89 @@ var WordActions = {
 };
 
 exports.WordActions = WordActions;
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SpecialOffers = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MovieDiscount = function (_React$PureComponent) {
+  _inherits(MovieDiscount, _React$PureComponent);
+
+  function MovieDiscount() {
+    _classCallCheck(this, MovieDiscount);
+
+    return _possibleConstructorReturn(this, (MovieDiscount.__proto__ || Object.getPrototypeOf(MovieDiscount)).apply(this, arguments));
+  }
+
+  _createClass(MovieDiscount, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          setState = _props.setState,
+          title = _props.title;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'special-offer' },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h4',
+            null,
+            title
+          )
+        ),
+        _react2.default.createElement('img', { height: '70', src: './dist/amc-theatres-logo.png' })
+      );
+    }
+  }]);
+
+  return MovieDiscount;
+}(_react2.default.PureComponent);
+
+var SpecialOffers = {
+  'Jumanji: Welcome to the Jungle': function JumanjiWelcomeToTheJungle(_ref) {
+    var setState = _ref.setState;
+    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Jumanji: Welcome to the Jungle' });
+  },
+  'Maze Runner: The Death Cure': function MazeRunnerTheDeathCure(_ref2) {
+    var setState = _ref2.setState;
+    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Maze Runner: The Death Cure' });
+  },
+  'Star Wars: The Last Jedi': function StarWarsTheLastJedi(_ref3) {
+    var setState = _ref3.setState;
+    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Star Wars: The Last Jedi' });
+  },
+  'Blade Runner 2049': function BladeRunner2049(_ref4) {
+    var setState = _ref4.setState;
+    return _react2.default.createElement(MovieDiscount, { setState: setState, title: 'Blade Runner 2049' });
+  }
+};
+
+exports.SpecialOffers = SpecialOffers;
 
 /***/ })
 /******/ ]);

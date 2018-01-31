@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import ListItem from 'component/list_item'
 import ResultAction from 'component/result_action';
+import 'stylesheet/SpecialDeal.css';
 import {
   AutoComplete
 } from 'autocomplete';
@@ -20,6 +21,9 @@ class Layout extends PureComponent {
     const { suggestions, typed } = this.state;
 
     const movieSuggestions = suggestions.map( (itm , i) => {
+      if (typeof itm === 'function') {
+        return <div key={i}>{ itm(this) }</div>
+      }
       if (typeof itm === 'string') {
         let data = {
           suggestion: itm,
